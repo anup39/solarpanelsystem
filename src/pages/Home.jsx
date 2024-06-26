@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { setCoordinates } from "../reducers/Map";
-import { findClosestBuilding } from "../maputils/solar";
 import {
   setshowToast,
   settoastMessage,
