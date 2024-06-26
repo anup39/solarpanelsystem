@@ -1,12 +1,24 @@
+import Routers from "./routes/Routers";
+import Toast from "./components/common/Toast";
 import { useState } from "react";
-import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [map, setMap] = useState(/** @type google.maps.Map */ (null));
+  const [loaded, setLoaded] = useState(true);
 
+  const onMap = (evMap) => {
+    if (evMap) {
+      setMap(evMap);
+    }
+  };
+
+  const onLoaded = (evLoaded) => {
+    setLoaded(evLoaded);
+  };
   return (
     <>
-      <div>This is the map page</div>
+      <Toast />
+      <Routers loaded={loaded} map={map} onLoaded={onLoaded} onMap={onMap} />
     </>
   );
 }
