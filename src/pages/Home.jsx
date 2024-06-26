@@ -30,6 +30,7 @@ export default function Home() {
           const { lat, lng } = response.data.results[0].geometry.location;
           console.log(lat, lng, "lat long");
           dispatch(setCoordinates({ lat, lng }));
+          localStorage.setItem("coordinates", JSON.stringify({ lat, lng }));
           //   navigate("/map", { state: { lat, lng } });
           const args = {
             "location.latitude": lat.toFixed(5),

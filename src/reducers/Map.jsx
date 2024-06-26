@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  place: null,
-  coordinates: null,
+  place: JSON.parse(localStorage.getItem("place")) || null,
+  coordinates: JSON.parse(localStorage.getItem("coordinates")) || null,
 };
 
 export const Map = createSlice({

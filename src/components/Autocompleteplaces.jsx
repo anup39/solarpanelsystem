@@ -110,6 +110,7 @@ export default function Autocompleteplaces() {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
         dispatch(setPlace(newValue));
+        localStorage.setItem("place", JSON.stringify(newValue));
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
