@@ -1,7 +1,13 @@
 import Routers from "./routes/Routers";
+import Toast from "./components/common/Toast";
 
 function App() {
-  return <Routers />;
+  return (
+    <>
+      <Toast />
+      <Routers />
+    </>
+  );
 }
 
 export default App;

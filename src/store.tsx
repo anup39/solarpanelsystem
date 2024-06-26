@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import DisplaySettings from "./reducers/DisplaySettings";
 import Auth from "./reducers/Auth";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import Map from "./reducers/Map";
 
 export const store = configureStore({
   reducer: {
     displaySettings: DisplaySettings,
     auth: Auth,
+    map: Map,
   },
 });
 

@@ -7,6 +7,8 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import parse from "autosuggest-highlight/parse";
 import { debounce } from "@mui/material/utils";
+import { useDispatch } from "react-redux";
+import { setPlace } from "../reducers/Map";
 
 // This key was created specifically for the demo in mui.com.
 // You need to create a new one for your application.
@@ -27,6 +29,7 @@ function loadScript(src, position, id) {
 const autocompleteService = { current: null };
 
 export default function Autocompleteplaces() {
+  const dispatch = useDispatch();
   const [value, setValue] = React.useState(null);
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState([]);
@@ -106,6 +109,7 @@ export default function Autocompleteplaces() {
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
+        dispatch(setPlace(newValue));
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
