@@ -35,6 +35,9 @@ export default function Autocompleteplaces() {
   const [options, setOptions] = React.useState([]);
   const loaded = React.useRef(false);
 
+  console.log(value, "value");
+  console.log(inputValue, "inputValue");
+
   if (typeof window !== "undefined" && !loaded.current) {
     if (!document.querySelector("#google-maps")) {
       loadScript(
@@ -109,8 +112,9 @@ export default function Autocompleteplaces() {
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
-        dispatch(setPlace(newValue));
+        setPlace(newValue);
         localStorage.setItem("place", JSON.stringify(newValue));
+        dispatch(setPlace(newValue));
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
