@@ -15,13 +15,20 @@ import PropTypes from "prop-types";
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-export default function GooglePlacesAutoComplete({ map, component, onLoaded }) {
+export default function GooglePlacesAutoComplete({
+  map,
+  component,
+  onLoaded,
+  currentMarker,
+  onCurrentMarker,
+  showmarker,
+}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchResult, setSearchResult] = useState(null);
   const palceRef = useRef();
   const google = window.google;
-  const [currentMarker, setCurrentMarker] = useState(null);
+
   const [inputValue, setInputValue] = useState("");
 
   console.log("google", google);
@@ -99,7 +106,8 @@ export default function GooglePlacesAutoComplete({ map, component, onLoaded }) {
             });
 
             // Step 4: Store the new marker reference for future removal
-            setCurrentMarker(draggableMarker);
+            draggableMarker.setVisible(showmarker);
+            onCurrentMarker(draggableMarker);
 
             const args = {
               "location.latitude": lat.toFixed(5),
@@ -215,4 +223,7 @@ GooglePlacesAutoComplete.propTypes = {
   map: PropTypes.object.isRequired,
   component: PropTypes.string.isRequired,
   onLoaded: PropTypes.func.isRequired,
+  currentMarker: PropTypes.object,
+  onCurrentMarker: PropTypes.func.isRequired,
+  showmarker: PropTypes.bool.isRequired,
 };

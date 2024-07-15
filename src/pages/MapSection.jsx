@@ -3,6 +3,9 @@ import Loader from "../components/common/Loader";
 import SliderSizes from "../components/common/SliderSizes";
 import GooglePlacesAutoComplete from "../components/GooglePlacesAutoComplete";
 import PropTypes from "prop-types";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import { useState } from "react";
 
 const zoom = 21;
 const center = {
@@ -11,6 +14,13 @@ const center = {
 };
 
 export default function MapSection({ loaded, map, onLoaded, onMap }) {
+  const [currentMarker, setCurrentMarker] = useState(null);
+  const [showmarker, setShowMarker] = useState(true);
+
+  const onCurrentMarker = (marker) => {
+    setCurrentMarker(marker);
+  };
+
   return (
     <div>
       {loaded ? (
@@ -23,8 +33,40 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           map={map}
           component={"MapSection"}
           onLoaded={onLoaded}
+          currentMarker={currentMarker}
+          onCurrentMarker={onCurrentMarker}
+          showmarker={showmarker}
         />
       )}
+
+      <div className="absolute flex flex-row top-2 right-7 bg-[#3D3880] rounded-lg">
+        <FormControlLabel
+          onChange={(e) => {
+            if (currentMarker) {
+              // Ensure the marker reference exists
+              currentMarker.setVisible(e.target.checked); // Set visibility based on checkbox
+              setShowMarker(e.target.checked); // Update state
+            }
+          }}
+          sx={{
+            paddingLeft: "5px",
+            paddingRight: "5px",
+            color: "white",
+          }}
+          control={
+            <Checkbox
+              sx={{
+                color: "white",
+                "&.Mui-checked": {
+                  color: "white",
+                },
+              }}
+              checked={showmarker}
+            />
+          }
+          label="Show Marker"
+        />
+      </div>
 
       <div
         style={{
@@ -43,16 +85,6 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
         </div>
         <SliderSizes max={50} />
       </div>
-      <div
-        style={{
-          display: "flex",
-          position: "absolute",
-          backgroundColor: "white",
-          borderRadius: "5px",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      ></div>
     </div>
   );
 }
