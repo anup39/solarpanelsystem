@@ -1,0 +1,35 @@
+.google-autocomplete {
+    position: absolute;
+    top: 5px;
+    height: 47px;
+    margin-left:5px;
+    background-color: #5f686d;
+    align-items: center;
+    z-index: 1;
+  }
+  
+.google-autocomplete button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+    left: auto;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    color: #3194d5;
+  }
+  
+.google-autocomplete input {
+    box-sizing: border-box;
+    width: 350px;
+    height: 47px;
+    border-radius: 5px;
+    padding: 0 50px 0 20px;
+    font-size: 15px;
+    outline: none;
+    border: 1px solid #534f4f;
+    background: rgb(255, 255, 255);
+  }

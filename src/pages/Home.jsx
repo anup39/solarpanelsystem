@@ -14,8 +14,9 @@ export default function Home({ loaded, map, onLoaded, onMap }) {
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const place = useSelector((state) => state.map.place);
+
   const handleContinue = (e) => {
+    const place = JSON.parse(localStorage.getItem("place"));
     setLoading(true);
     e.preventDefault();
     console.log(place, "place");
@@ -31,7 +32,7 @@ export default function Home({ loaded, map, onLoaded, onMap }) {
         .then((response) => {
           const { lat, lng } = response.data.results[0].geometry.location;
           console.log(lat, lng, "lat long");
-          dispatch(setCoordinates({ lat, lng }));
+          // dispatch(setCoordinates({ lat, lng }));
           localStorage.setItem("coordinates", JSON.stringify({ lat, lng }));
           //   navigate("/map", { state: { lat, lng } });
           const args = {
@@ -56,9 +57,9 @@ export default function Home({ loaded, map, onLoaded, onMap }) {
               );
               throw content;
             }
-            // navigate("/map");
+            navigate("/map");
             window.location.href = "/map";
-            dispatch(setBuildingInsights(content));
+            // dispatch(setBuildingInsights(content));
             localStorage.setItem("buildingInsights", JSON.stringify(content));
             console.log("buildingInsightsResponse", content);
           });
