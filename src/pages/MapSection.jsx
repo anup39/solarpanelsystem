@@ -8,6 +8,13 @@ import Checkbox from "@mui/material/Checkbox";
 import { useState } from "react";
 import Alert from "@mui/material/Alert";
 import Info from "@mui/icons-material/Info";
+import Box from "@mui/material/Box";
+import { Divider, Typography } from "@mui/material";
+import HouseIcon from "@mui/icons-material/House";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import SquareFootIcon from "@mui/icons-material/SquareFoot";
+import SolarPowerIcon from "@mui/icons-material/SolarPower";
+import Co2Icon from "@mui/icons-material/Co2";
 
 const zoom = 21;
 const center = {
@@ -99,6 +106,167 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
         <Alert icon={<Info fontSize="inherit" />} severity="success">
           Here move the marker to the desired location
         </Alert>
+      </div>
+
+      <div
+        style={{
+          display: currentMarker ? "block" : "none",
+        }}
+        className="absolute top-[6%] right-[1%]"
+      >
+        <Box
+          sx={{
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "5px",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            padding: "10px",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginRight: "56px",
+              }}
+            >
+              <HouseIcon />
+              <Typography variant="h6" sx={{ color: "black" }}>
+                Building Insights endpoint
+              </Typography>
+            </Box>
+          </Box>
+          <Divider />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginRight: "56px",
+              }}
+            >
+              <WbSunnyIcon />
+              <Typography variant="h6" sx={{ color: "black" }}>
+                Annual Sunshine
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="body1" sx={{ color: "black" }}>
+                1,803 hr
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginRight: "56px",
+              }}
+            >
+              <SquareFootIcon />
+              <Typography variant="h6" sx={{ color: "black" }}>
+                Roof Area
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="body1" sx={{ color: "black" }}>
+                2,399.4 m²
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginRight: "56px",
+              }}
+            >
+              <SolarPowerIcon />
+              <Typography variant="h6" sx={{ color: "black" }}>
+                Max Panel Count
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="body1" sx={{ color: "black" }}>
+                987 panels
+              </Typography>
+            </Box>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginRight: "56px",
+              }}
+            >
+              <Co2Icon />
+              <Typography variant="h6" sx={{ color: "black" }}>
+                CO₂ savings
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="body1" sx={{ color: "black" }}>
+                428.9 Kg/MWh
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
       </div>
     </div>
   );
