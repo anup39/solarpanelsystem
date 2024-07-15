@@ -12,7 +12,7 @@ const center = {
 export default function Home({ loaded, map, onLoaded, onMap }) {
   return (
     <div
-      className="bg-cover bg-center h-screen  bg-no-repeat"
+      className="bg-cover bg-right h-screen  bg-no-repeat"
       style={{
         backgroundImage: `url('bannerai.png')`,
         backgroundSize: "contain",

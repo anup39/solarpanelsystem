@@ -143,7 +143,7 @@ export default function GooglePlacesAutoComplete({ map, component }) {
   return google ? (
     <div className="google-autocomplete">
       <button onClick={handleAutoCompleteCrossClick}>
-        <ClearIcon sx={{ height: 25, width: 30, color: "white" }} />
+        <ClearIcon sx={{ height: 25, width: 30, color: "black" }} />
       </button>
       <GoogleAutoComplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
         <input type="text" ref={palceRef}></input>

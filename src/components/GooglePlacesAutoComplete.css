@@ -3,10 +3,9 @@
     top: 5px;
     height: 47px;
     margin-left:5px;
-    background-color: hsl(244, 39%, 36%);
+    background-color: white;
     align-items: center;
     z-index: 1;
-    border-radius: 5px;
   }
   
 .google-autocomplete button {
@@ -32,6 +31,5 @@
     font-size: 15px;
     outline: none;
     border: 1px solid #534f4f;
-    background:  hsl(244, 39%, 36%);
-    color: white;
+    background: rgb(255, 255, 255);
   }
