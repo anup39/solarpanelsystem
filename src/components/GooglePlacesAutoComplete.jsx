@@ -22,6 +22,7 @@ export default function GooglePlacesAutoComplete({ map, component, onLoaded }) {
   const palceRef = useRef();
   const google = window.google;
   const [currentMarker, setCurrentMarker] = useState(null);
+  const [inputValue, setInputValue] = useState("");
 
   console.log("google", google);
 
@@ -32,6 +33,8 @@ export default function GooglePlacesAutoComplete({ map, component, onLoaded }) {
     if (searchResult != null) {
       //variable to store the result
       const place = searchResult.getPlace();
+      console.log(place.formatted_address, "place");
+      setInputValue(place.formatted_address);
       //variable to store the name from place details result
       const geocoder = new window.google.maps.Geocoder();
       geocoder.geocode(
@@ -63,6 +66,36 @@ export default function GooglePlacesAutoComplete({ map, component, onLoaded }) {
               const lng = draggableMarker.getPosition().lng();
               map.panTo({ lat: lat, lng: lng });
               // map.setZoom(15);
+
+              // Step 1: Initialize the Geocoder
+              const geocoder = new window.google.maps.Geocoder();
+
+              // Step 2: Geocode the Latitude and Longitude
+              geocoder.geocode(
+                { location: { lat: lat, lng: lng } },
+                (results, status) => {
+                  // Step 3: Handle the Response
+                  if (status === "OK") {
+                    if (results[0]) {
+                      // This is the full address
+                      console.log(results[0].formatted_address, "full address");
+                      setInputValue(results[0].formatted_address);
+
+                      // If you specifically want the place name, you might need to parse the address components
+                      // The place name might not be directly available or consistent across different locations
+                      // For example, you might consider the first component with a "locality" type as the place name
+                      const placeName = results[0]?.address_components?.find(
+                        (component) => component.types.includes("locality")
+                      ).long_name;
+                      console.log(placeName);
+                    } else {
+                      console.log("No results found");
+                    }
+                  } else {
+                    console.error("Geocoder failed due to: " + status);
+                  }
+                }
+              );
             });
 
             // Step 4: Store the new marker reference for future removal
@@ -167,7 +200,12 @@ export default function GooglePlacesAutoComplete({ map, component, onLoaded }) {
         <ClearIcon sx={{ height: 25, width: 30, color: "black" }} />
       </button>
       <GoogleAutoComplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
-        <input type="text" ref={palceRef}></input>
+        <input
+          value={inputValue}
+          type="text"
+          ref={palceRef}
+          onChange={(e) => setInputValue(e.target.value)}
+        ></input>
       </GoogleAutoComplete>
     </div>
   ) : null;
