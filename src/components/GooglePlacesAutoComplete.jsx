@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Autocomplete as GoogleAutoComplete } from "@react-google-maps/api";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useDispatch } from "react-redux";
@@ -11,16 +11,19 @@ import {
 import { useNavigate } from "react-router-dom";
 import { createPalette, rgbToColor, normalize } from "../maputils/visualize";
 import { panelsPalette } from "../maputils/colors";
+import PropTypes from "prop-types";
 
-const apiKey = "AIzaSyDBU5pn5aaEXcYXqpIjFDV7jQsTk2uMyy0";
+const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-export default function GooglePlacesAutoComplete({ map }) {
+export default function GooglePlacesAutoComplete({ map, component }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState(null);
   const palceRef = useRef();
   const google = window.google;
+
+  console.log("google", google);
 
   function handleAutoCompleteCrossClick() {
     palceRef.current.value = "";
@@ -65,7 +68,7 @@ export default function GooglePlacesAutoComplete({ map }) {
                 );
                 throw content;
               }
-              navigate("/map");
+
               //   window.location.href = "/map";
               //   dispatch(setBuildingInsights(content));
               localStorage.setItem("buildingInsights", JSON.stringify(content));
@@ -122,6 +125,10 @@ export default function GooglePlacesAutoComplete({ map }) {
                 console.log(index, "index");
                 return polygon;
               });
+
+              if (component === "Map") {
+                navigate("/map");
+              }
             });
           }
         }
@@ -136,7 +143,7 @@ export default function GooglePlacesAutoComplete({ map }) {
   return google ? (
     <div className="google-autocomplete">
       <button onClick={handleAutoCompleteCrossClick}>
-        <ClearIcon sx={{ height: 25, width: 30 }} />
+        <ClearIcon sx={{ height: 25, width: 30, color: "white" }} />
       </button>
       <GoogleAutoComplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
         <input type="text" ref={palceRef}></input>
@@ -144,3 +151,8 @@ export default function GooglePlacesAutoComplete({ map }) {
     </div>
   ) : null;
 }
+
+GooglePlacesAutoComplete.propTypes = {
+  map: PropTypes.object.isRequired,
+  component: PropTypes.string.isRequired,
+};

@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import "./Map.css";
 import { useJsApiLoader, GoogleMap } from "@react-google-maps/api";
+import PropTypes from "prop-types";
 
 const libraries = ["places", "drawing", "geometry"];
 
-// Custom map control to switch between basemap options
+const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const Map = ({ zoom, center, onMap, onLoaded }) => {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyA-LaWEor4ckZWutoufU3y6ou4Sww4EpdE",
+    googleMapsApiKey: apiKey,
     libraries,
   });
 
@@ -45,3 +46,10 @@ const Map = ({ zoom, center, onMap, onLoaded }) => {
 };
 
 export default Map;
+
+Map.propTypes = {
+  zoom: PropTypes.number.isRequired,
+  center: PropTypes.object.isRequired,
+  onMap: PropTypes.func.isRequired,
+  onLoaded: PropTypes.func.isRequired,
+};

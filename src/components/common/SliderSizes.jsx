@@ -1,6 +1,6 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
+import PropTypes from "prop-types";
 
 export default function SliderSizes({ max }) {
   return (
@@ -16,3 +16,7 @@ export default function SliderSizes({ max }) {
     </Box>
   );
 }
+
+SliderSizes.propTypes = {
+  max: PropTypes.number.isRequired,
+};

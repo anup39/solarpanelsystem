@@ -1,73 +1,15 @@
-import React, { useEffect } from "react";
-import Autocompleteplaces from "../components/Autocompleteplaces";
-import { useSelector, useDispatch } from "react-redux";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { setBuildingInsights, setCoordinates } from "../reducers/Map";
-import {
-  setshowToast,
-  settoastMessage,
-  settoastType,
-} from "../reducers/DisplaySettings";
+import GooglePlacesAutoComplete from "../components/GooglePlacesAutoComplete";
+import Map from "../map/Map";
+import Loader from "../components/common/Loader";
+import PropTypes from "prop-types";
+
+const zoom = 21;
+const center = {
+  lat: 37.7749,
+  lng: -122.4194,
+};
 
 export default function Home({ loaded, map, onLoaded, onMap }) {
-  const [loading, setLoading] = React.useState(false);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const handleContinue = (e) => {
-    const place = JSON.parse(localStorage.getItem("place"));
-    setLoading(true);
-    e.preventDefault();
-    console.log(place, "place");
-    if (place.description) {
-      const address = place.description;
-      const apiKey = "AIzaSyDBU5pn5aaEXcYXqpIjFDV7jQsTk2uMyy0";
-      const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-        address
-      )}&key=${apiKey}`;
-
-      axios
-        .get(url)
-        .then((response) => {
-          const { lat, lng } = response.data.results[0].geometry.location;
-          console.log(lat, lng, "lat long");
-          // dispatch(setCoordinates({ lat, lng }));
-          localStorage.setItem("coordinates", JSON.stringify({ lat, lng }));
-          //   navigate("/map", { state: { lat, lng } });
-          const args = {
-            "location.latitude": lat.toFixed(5),
-            "location.longitude": lng.toFixed(5),
-          };
-          console.log("GET buildingInsights\n", args);
-          const params = new URLSearchParams({ ...args, key: apiKey });
-          fetch(
-            `https://solar.googleapis.com/v1/buildingInsights:findClosest?${params}`
-          ).then(async (response) => {
-            setLoading(false);
-            const content = await response.json();
-            if (response.status != 200) {
-              console.error("findClosestBuilding\n", content);
-              dispatch(setshowToast(true));
-              dispatch(settoastType("error"));
-              dispatch(
-                settoastMessage(
-                  "No building found near the location. Please try again."
-                )
-              );
-              throw content;
-            }
-            navigate("/map");
-            window.location.href = "/map";
-            // dispatch(setBuildingInsights(content));
-            localStorage.setItem("buildingInsights", JSON.stringify(content));
-            console.log("buildingInsightsResponse", content);
-          });
-        })
-        .catch((error) => console.error("Geocoding error:", error));
-    }
-  };
-
   return (
     <div
       className="bg-cover bg-center h-screen  bg-no-repeat"
@@ -77,43 +19,20 @@ export default function Home({ loaded, map, onLoaded, onMap }) {
       }}
     >
       {loaded ? (
-        <form
-          onSubmit={handleContinue}
-          className="flex absolute top-96 right-52 justify-between items-center gap-3"
-        >
-          <Autocompleteplaces map={map} />
-          {!loading ? (
-            <button
-              type="submit"
-              className="bg-[#3d3880] hover:bg-[#3d3880] text-white font-bold py-2 px-4 ml-2 rounded-sm"
-            >
-              Continue
-            </button>
-          ) : null}
-
-          {loading ? (
-            <div role="status">
-              <svg
-                aria-hidden="true"
-                className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                viewBox="0 0 100 101"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                  fill="currentFill"
-                />
-              </svg>
-              <span className="sr-only">Loading...</span>
-            </div>
-          ) : null}
-        </form>
-      ) : null}
+        <div style={{ display: "none" }}>
+          <Map center={center} zoom={zoom} onMap={onMap} onLoaded={onLoaded} />
+        </div>
+      ) : (
+        <Loader />
+      )}
+      <GooglePlacesAutoComplete map={map} component={"Map"} />
     </div>
   );
 }
+
+Home.propTypes = {
+  loaded: PropTypes.bool.isRequired,
+  map: PropTypes.object.isRequired,
+  onLoaded: PropTypes.func.isRequired,
+  onMap: PropTypes.func.isRequired,
+};
