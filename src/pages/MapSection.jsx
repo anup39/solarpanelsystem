@@ -18,8 +18,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
       ) : (
         <Loader />
       )}
-
-      <GooglePlacesAutoComplete map={map} component={"Home"} />
+      {map && <GooglePlacesAutoComplete map={map} component={"Home"} />}
 
       <div
         style={{
@@ -54,7 +53,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
 
 MapSection.propTypes = {
   loaded: PropTypes.bool.isRequired,
-  map: PropTypes.object.isRequired,
+  map: PropTypes.object,
   onLoaded: PropTypes.func.isRequired,
   onMap: PropTypes.func.isRequired,
 };

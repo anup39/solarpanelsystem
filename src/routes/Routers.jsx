@@ -33,7 +33,7 @@ export default function Routers({ loaded, map, onLoaded, onMap }) {
 
 Routers.propTypes = {
   loaded: PropTypes.bool.isRequired,
-  map: PropTypes.object.isRequired,
+  map: PropTypes.object,
   onLoaded: PropTypes.func.isRequired,
   onMap: PropTypes.func.isRequired,
 };

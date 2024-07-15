@@ -12,7 +12,7 @@ const center = {
 export default function Home({ loaded, map, onLoaded, onMap }) {
   return (
     <div
-      className="bg-cover bg-right h-screen  bg-no-repeat"
+      className="bg-cover bg-right h-screen  bg-no-repeat "
       style={{
         backgroundImage: `url('bannerai.png')`,
         backgroundSize: "contain",
@@ -32,7 +32,7 @@ export default function Home({ loaded, map, onLoaded, onMap }) {
 
 Home.propTypes = {
   loaded: PropTypes.bool.isRequired,
-  map: PropTypes.object.isRequired,
+  map: PropTypes.object,
   onLoaded: PropTypes.func.isRequired,
   onMap: PropTypes.func.isRequired,
 };
