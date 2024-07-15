@@ -126,8 +126,8 @@ export default function GooglePlacesAutoComplete({ map, component }) {
                 return polygon;
               });
 
-              if (component === "Map") {
-                navigate("/map");
+              if (component === "Home") {
+                navigate(`/map/${lat}/${lng}`);
               }
             });
           }

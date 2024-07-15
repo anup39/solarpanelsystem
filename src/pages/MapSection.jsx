@@ -18,7 +18,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
       ) : (
         <Loader />
       )}
-      {map && <GooglePlacesAutoComplete map={map} component={"Home"} />}
+      {map && <GooglePlacesAutoComplete map={map} component={"MapSection"} />}
 
       <div
         style={{
