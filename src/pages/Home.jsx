@@ -1,4 +1,3 @@
-import GooglePlacesAutoComplete from "../components/GooglePlacesAutoComplete";
 import Map from "../map/Map";
 import Loader from "../components/common/Loader";
 import PropTypes from "prop-types";

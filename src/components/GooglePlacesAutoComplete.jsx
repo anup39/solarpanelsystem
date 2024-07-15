@@ -15,13 +15,13 @@ import PropTypes from "prop-types";
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-export default function GooglePlacesAutoComplete({ map, component }) {
+export default function GooglePlacesAutoComplete({ map, component, onLoaded }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState(null);
   const palceRef = useRef();
   const google = window.google;
+  const [currentMarker, setCurrentMarker] = useState(null);
 
   console.log("google", google);
 
@@ -46,6 +46,28 @@ export default function GooglePlacesAutoComplete({ map, component }) {
             map.panTo({ lat: lat, lng: lng });
             // map.setZoom(15);
 
+            // Step 1 & 2: Check if there's an existing marker and remove it
+            if (currentMarker) {
+              currentMarker.setMap(null);
+            }
+
+            // Step 3: Create the new marker
+            const draggableMarker = new window.google.maps.Marker({
+              position: { lat: lat, lng: lng },
+              map: map,
+              draggable: true,
+            });
+
+            draggableMarker.addListener("dragend", () => {
+              const lat = draggableMarker.getPosition().lat();
+              const lng = draggableMarker.getPosition().lng();
+              map.panTo({ lat: lat, lng: lng });
+              // map.setZoom(15);
+            });
+
+            // Step 4: Store the new marker reference for future removal
+            setCurrentMarker(draggableMarker);
+
             const args = {
               "location.latitude": lat.toFixed(5),
               "location.longitude": lng.toFixed(5),
@@ -55,7 +77,6 @@ export default function GooglePlacesAutoComplete({ map, component }) {
             fetch(
               `https://solar.googleapis.com/v1/buildingInsights:findClosest?${params}`
             ).then(async (response) => {
-              setLoading(false);
               const content = await response.json();
               if (response.status != 200) {
                 console.error("findClosestBuilding\n", content);
@@ -155,4 +176,5 @@ export default function GooglePlacesAutoComplete({ map, component }) {
 GooglePlacesAutoComplete.propTypes = {
   map: PropTypes.object.isRequired,
   component: PropTypes.string.isRequired,
+  onLoaded: PropTypes.func.isRequired,
 };
