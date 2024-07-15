@@ -92,7 +92,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
 
       <div
         style={{
-          display: currentMarker ? "block" : "none",
+          display: currentMarker && showmarker ? "block" : "none",
         }}
         className="absolute top-[1%] left-[40%]"
       >
