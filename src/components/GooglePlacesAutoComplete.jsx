@@ -15,6 +15,13 @@ export default function GooglePlacesAutoComplete({
   showmarker,
   onShowDetails,
   onLoader,
+  onPanelCount,
+  onPanelMax,
+  onPanelMin,
+  onAnnualSunshine,
+  onRoofArea,
+  onMaxPanelCount,
+  onCo2Savings,
 }) {
   const dispatch = useDispatch();
   const [searchResult, setSearchResult] = useState(null);
@@ -70,7 +77,14 @@ export default function GooglePlacesAutoComplete({
                         map,
                         dispatch,
                         onShowDetails,
-                        onLoader
+                        onLoader,
+                        onPanelCount,
+                        onPanelMax,
+                        onPanelMin,
+                        onAnnualSunshine,
+                        onRoofArea,
+                        onMaxPanelCount,
+                        onCo2Savings
                       );
                       // If you specifically want the place name, you might need to parse the address components
                       // The place name might not be directly available or consistent across different locations
@@ -93,7 +107,21 @@ export default function GooglePlacesAutoComplete({
             onCurrentMarker(draggableMarker);
 
             // Step 5: Plot the panel
-            plotPanel(lat, lng, map, dispatch, onShowDetails, onLoader);
+            plotPanel(
+              lat,
+              lng,
+              map,
+              dispatch,
+              onShowDetails,
+              onLoader,
+              onPanelCount,
+              onPanelMax,
+              onPanelMin,
+              onAnnualSunshine,
+              onRoofArea,
+              onMaxPanelCount,
+              onCo2Savings
+            );
           }
         }
       );
@@ -130,4 +158,11 @@ GooglePlacesAutoComplete.propTypes = {
   showmarker: PropTypes.bool.isRequired,
   onShowDetails: PropTypes.func.isRequired,
   onLoader: PropTypes.func.isRequired,
+  onPanelCount: PropTypes.func.isRequired,
+  onPanelMax: PropTypes.func.isRequired,
+  onPanelMin: PropTypes.func.isRequired,
+  onAnnualSunshine: PropTypes.func.isRequired,
+  onRoofArea: PropTypes.func.isRequired,
+  onMaxPanelCount: PropTypes.func.isRequired,
+  onCo2Savings: PropTypes.func.isRequired,
 };

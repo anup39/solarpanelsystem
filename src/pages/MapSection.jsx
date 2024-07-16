@@ -93,6 +93,13 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           showmarker={showmarker}
           onShowDetails={onShowDetails}
           onLoader={onLoader}
+          onPanelCount={onPanelCount}
+          onPanelMax={onPanelMax}
+          onPanelMin={onPanelMin}
+          onAnnualSunshine={onAnnualSunshine}
+          onRoofArea={onRoofArea}
+          onMaxPanelCount={onMaxPanelCount}
+          onCo2Savings={onCo2Savings}
         />
       )}
 

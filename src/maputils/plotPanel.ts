@@ -11,7 +11,14 @@ const plotPanel =(
     map: google.maps.Map,
     dispatch: any,
     onShowDetails: any,
-    onLoader: any
+    onLoader: any,
+    onPanelCount : any,
+    onPanelMax: any,
+    onPanelMin: any,
+    onAnnualSunshine: any,
+    onRoofArea: any,
+    onMaxPanelCount: any,
+    onCo2Savings: any,
 )=>{
     const args = {
         "location.latitude": lat.toFixed(5),
@@ -41,6 +48,13 @@ const plotPanel =(
           polygon.setMap(null);
         }
         );
+        console.log(content, "content");
+        onPanelMax(content.solarPotential.maxArrayPanelsCount)
+        onPanelMin(0)
+        onMaxPanelCount(content.solarPotential.maxArrayPanelsCount)
+        onAnnualSunshine(content.solarPotential.maxSunshineHoursPerYear)
+        onRoofArea(content.solarPotential.wholeRoofStats.areaMeters2)
+        onCo2Savings(content.solarPotential.carbonOffsetFactorKgPerMwh)
         const solarPotential = content.solarPotential;
         const palette = createPalette(panelsPalette).map(rgbToColor);
         const minEnergy =
@@ -90,6 +104,7 @@ const plotPanel =(
           return polygon;
         });
         window.polygons = polygons_;
+        onPanelCount(window.polygons?.length);
         onShowDetails(true);
         onLoader(false);
       });
