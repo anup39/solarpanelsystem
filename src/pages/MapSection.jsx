@@ -15,6 +15,7 @@ import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import SolarPowerIcon from "@mui/icons-material/SolarPower";
 import Co2Icon from "@mui/icons-material/Co2";
+import { Gauge } from "@mui/x-charts/Gauge";
 
 const zoom = 21;
 const center = {
@@ -48,71 +49,11 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
         />
       )}
 
-      <div className="absolute flex flex-row top-2 right-7 bg-[#3D3880] rounded-lg gap-32">
-        <div>
-          <FormControlLabel
-            onChange={(e) => {
-              if (currentMarker) {
-                // Ensure the marker reference exists
-                currentMarker.setVisible(e.target.checked); // Set visibility based on checkbox
-                setShowMarker(e.target.checked); // Update state
-              }
-            }}
-            sx={{
-              paddingLeft: "5px",
-              paddingRight: "5px",
-              color: "white",
-            }}
-            control={
-              <Checkbox
-                sx={{
-                  color: "white",
-                  "&.Mui-checked": {
-                    color: "white",
-                  },
-                }}
-                checked={showmarker}
-              />
-            }
-            label="Show Marker"
-          />
-        </div>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          position: "absolute",
-          bottom: "10px",
-          left: "45%",
-          backgroundColor: "white",
-          borderRadius: "5px",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <div>
-          <h1>Panel Count:</h1>
-        </div>
-        <SliderSizes max={50} />
-      </div>
-
-      <div
-        style={{
-          display: currentMarker && showmarker ? "block" : "none",
-        }}
-        className="absolute top-[1%] left-[40%]"
-      >
-        <Alert icon={<Info fontSize="inherit" />} severity="success">
-          Here move the marker to the desired location
-        </Alert>
-      </div>
-
       <div
         style={{
           display: currentMarker ? "block" : "none",
         }}
-        className="absolute top-[6%] right-[1%]"
+        className="absolute top-[1%] right-[1%]"
       >
         <Box
           sx={{
@@ -267,6 +208,111 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
             </Box>
           </Box>
         </Box>
+      </div>
+
+      <div
+        style={{
+          display: currentMarker ? "block" : "none",
+        }}
+        className="absolute top-[30%] right-[1%] flex flex-row bg-white rounded-lg p-3"
+      >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            padding: "10px",
+          }}
+        >
+          <Typography>Panel count</Typography>
+          <Gauge width={100} height={100} value={60} />
+          <Typography
+            sx={{
+              ml: 3,
+            }}
+          >
+            99/977
+          </Typography>
+        </Box>
+        <Divider></Divider>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+            padding: "10px",
+          }}
+        >
+          <Typography>Yearly Energy</Typography>
+          <Gauge width={100} height={100} value={60} />
+          <Typography
+            sx={{
+              ml: 3,
+            }}
+          >
+            99/977
+          </Typography>
+        </Box>
+      </div>
+
+      <div className="absolute flex flex-row top-2 right-96 bg-[#3D3880] rounded-lg gap-32">
+        <div>
+          <FormControlLabel
+            onChange={(e) => {
+              if (currentMarker) {
+                // Ensure the marker reference exists
+                currentMarker.setVisible(e.target.checked); // Set visibility based on checkbox
+                setShowMarker(e.target.checked); // Update state
+              }
+            }}
+            sx={{
+              paddingLeft: "5px",
+              paddingRight: "5px",
+              color: "white",
+            }}
+            control={
+              <Checkbox
+                sx={{
+                  color: "white",
+                  "&.Mui-checked": {
+                    color: "white",
+                  },
+                }}
+                checked={showmarker}
+              />
+            }
+            label="Show Marker"
+          />
+        </div>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          bottom: "10px",
+          left: "45%",
+          backgroundColor: "white",
+          borderRadius: "5px",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <div>
+          <h1>Panel Count:</h1>
+        </div>
+        <SliderSizes max={50} />
+      </div>
+
+      <div
+        style={{
+          display: currentMarker && showmarker ? "block" : "none",
+        }}
+        className="absolute top-[1%] left-[40%]"
+      >
+        <Alert icon={<Info fontSize="inherit" />} severity="success">
+          Here move the marker to the desired location
+        </Alert>
       </div>
     </div>
   );
