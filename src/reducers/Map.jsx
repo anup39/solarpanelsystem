@@ -12,7 +12,6 @@ export const Map = createSlice({
   initialState,
   reducers: {
     setPlace: (state, action) => {
-      console.log(action.payload);
       state.place = action.payload;
     },
     setCoordinates: (state, action) => {

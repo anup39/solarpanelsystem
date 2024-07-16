@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import MapSection from "../pages/MapSection";
+import PropTypes from "prop-types";
 
 export default function Routers({ loaded, map, onLoaded, onMap }) {
   return (
@@ -29,3 +30,10 @@ export default function Routers({ loaded, map, onLoaded, onMap }) {
     </Router>
   );
 }
+
+Routers.propTypes = {
+  loaded: PropTypes.bool.isRequired,
+  map: PropTypes.object,
+  onLoaded: PropTypes.func.isRequired,
+  onMap: PropTypes.func.isRequired,
+};

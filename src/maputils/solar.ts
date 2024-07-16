@@ -148,7 +148,6 @@ export interface DataLayersResponse {
       'location.latitude': lat.toFixed(5),
       'location.longitude': lng.toFixed(5),
     };
-    console.log('GET buildingInsights\n', args);
     const params = new URLSearchParams({ ...args, key: apiKey });
     // https://developers.google.com/maps/documentation/solar/reference/rest/v1/buildingInsights/findClosest
     return fetch(`https://solar.googleapis.com/v1/buildingInsights:findClosest?${params}`).then(
@@ -158,7 +157,6 @@ export interface DataLayersResponse {
           console.error('findClosestBuilding\n', content);
           throw content;
         }
-        console.log('buildingInsightsResponse', content);
         return {content:content, status:response.status};
       },
     );
