@@ -37,6 +37,12 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
   const [panelMax, setPanelMax] = useState(100);
   const [panelMin, setPanelMin] = useState(0);
 
+  // insights part
+  const [annualSunshine, setAnnualSunshine] = useState(0);
+  const [roofArea, setRoofArea] = useState(0);
+  const [maxPanelCount, setMaxPanelCount] = useState(0);
+  const [co2Savings, setCo2Savings] = useState(0);
+
   const onPanelCount = (value) => {
     setPanelCount(value);
   };
@@ -143,7 +149,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
             </Box>
             <Box>
               <Typography variant="body1" sx={{ color: "black" }}>
-                1,803 hr
+                {annualSunshine} hr
               </Typography>
             </Box>
           </Box>
@@ -176,7 +182,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
             </Box>
             <Box>
               <Typography variant="body1" sx={{ color: "black" }}>
-                2,399.4 m²
+                {roofArea} m²
               </Typography>
             </Box>
           </Box>
@@ -209,7 +215,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
             </Box>
             <Box>
               <Typography variant="body1" sx={{ color: "black" }}>
-                987 panels
+                {maxPanelCount} panels
               </Typography>
             </Box>
           </Box>
@@ -242,7 +248,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
             </Box>
             <Box>
               <Typography variant="body1" sx={{ color: "black" }}>
-                428.9 Kg/MWh
+                {co2Savings} Kg/MWh
               </Typography>
             </Box>
           </Box>
@@ -279,7 +285,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
               ml: 3,
             }}
           >
-            99/977
+            {panelCount}/{maxPanelCount}
           </Typography>
         </Box>
         <Divider></Divider>
@@ -307,7 +313,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
               ml: 3,
             }}
           >
-            99/977
+            {0} KWh
           </Typography>
         </Box>
       </div>
