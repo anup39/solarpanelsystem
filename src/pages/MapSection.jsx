@@ -30,12 +30,27 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
   const [showDetails, setShowDetails] = useState(false);
   const [panelCapacity, setPanelCapacity] = useState(250);
 
-  console.log(panelCapacity, "panelCapacity");
+  const onCurrentMarker = (marker) => {
+    setCurrentMarker(marker);
+  };
+
+  const onShowDetails = (value) => {
+    setShowDetails(value);
+  };
 
   // panel count part
   const [panelCount, setPanelCount] = useState(0);
   const [panelMax, setPanelMax] = useState(100);
   const [panelMin, setPanelMin] = useState(0);
+  const onPanelCount = (value) => {
+    setPanelCount(value);
+  };
+  const onPanelMax = (value) => {
+    setPanelMax(value);
+  };
+  const onPanelMin = (value) => {
+    setPanelMin(value);
+  };
 
   // insights part
   const [annualSunshine, setAnnualSunshine] = useState(0);
@@ -43,16 +58,17 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
   const [maxPanelCount, setMaxPanelCount] = useState(0);
   const [co2Savings, setCo2Savings] = useState(0);
 
-  const onPanelCount = (value) => {
-    setPanelCount(value);
+  const onAnnualSunshine = (value) => {
+    setAnnualSunshine(value);
   };
-
-  const onCurrentMarker = (marker) => {
-    setCurrentMarker(marker);
+  const onRoofArea = (value) => {
+    setRoofArea(value);
   };
-
-  const onShowDetails = (value) => {
-    setShowDetails(value);
+  const onMaxPanelCount = (value) => {
+    setMaxPanelCount(value);
+  };
+  const onCo2Savings = (value) => {
+    setCo2Savings(value);
   };
 
   return (
@@ -73,6 +89,8 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           onShowDetails={onShowDetails}
         />
       )}
+
+      {/* Insights part */}
 
       <div
         style={{
@@ -255,6 +273,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
         </Box>
       </div>
 
+      {/* Panel count slider and capacity */}
       <div
         style={{
           display: showDetails ? "block" : "none",
@@ -273,7 +292,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           <Gauge
             width={100}
             height={100}
-            value={60}
+            value={(panelCount / maxPanelCount) * 100}
             sx={() => ({
               [`& .${gaugeClasses.valueArc}`]: {
                 fill: "#3d3880",
@@ -318,6 +337,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
         </Box>
       </div>
 
+      {/* Show Marker checkbox */}
       <div className="absolute flex flex-row top-2 right-96 bg-[#3D3880] rounded-lg gap-32">
         <div>
           <FormControlLabel
@@ -349,6 +369,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
         </div>
       </div>
 
+      {/* Panel count and yearly enegry gauge part */}
       <div
         style={{
           display: showDetails ? "block" : "none",
@@ -401,6 +422,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
         </Box>
       </div>
 
+      {/* Alert for the user to move the marker to the desired location */}
       <div
         style={{
           display: currentMarker && showmarker ? "block" : "none",
