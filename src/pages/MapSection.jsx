@@ -26,9 +26,14 @@ const center = {
 export default function MapSection({ loaded, map, onLoaded, onMap }) {
   const [currentMarker, setCurrentMarker] = useState(null);
   const [showmarker, setShowMarker] = useState(true);
+  const [showDetails, setShowDetails] = useState(false);
 
   const onCurrentMarker = (marker) => {
     setCurrentMarker(marker);
+  };
+
+  const onShowDetails = (value) => {
+    setShowDetails(value);
   };
 
   return (
@@ -46,12 +51,13 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           currentMarker={currentMarker}
           onCurrentMarker={onCurrentMarker}
           showmarker={showmarker}
+          onShowDetails={onShowDetails}
         />
       )}
 
       <div
         style={{
-          display: currentMarker ? "block" : "none",
+          display: showDetails ? "block" : "none",
         }}
         className="absolute top-[1%] right-[1%]"
       >
@@ -212,7 +218,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
 
       <div
         style={{
-          display: currentMarker ? "block" : "none",
+          display: showDetails ? "block" : "none",
         }}
         className="absolute top-[30%] right-[1%] flex flex-row bg-white rounded-lg p-3"
       >

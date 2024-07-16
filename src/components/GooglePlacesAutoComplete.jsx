@@ -22,6 +22,7 @@ export default function GooglePlacesAutoComplete({
   currentMarker,
   onCurrentMarker,
   showmarker,
+  onShowDetails,
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -128,7 +129,8 @@ export default function GooglePlacesAutoComplete({
                     "No building found near the location. Please try again."
                   )
                 );
-                throw content;
+                onShowDetails(false);
+                return;
               }
 
               //   window.location.href = "/map";
@@ -188,6 +190,8 @@ export default function GooglePlacesAutoComplete({
                 return polygon;
               });
 
+              onShowDetails(true);
+
               if (component === "Home") {
                 navigate(`/map/${lat}/${lng}`);
               }
@@ -226,4 +230,5 @@ GooglePlacesAutoComplete.propTypes = {
   currentMarker: PropTypes.object,
   onCurrentMarker: PropTypes.func.isRequired,
   showmarker: PropTypes.bool.isRequired,
+  onShowDetails: PropTypes.func.isRequired,
 };
