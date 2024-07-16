@@ -16,6 +16,7 @@ import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import SolarPowerIcon from "@mui/icons-material/SolarPower";
 import Co2Icon from "@mui/icons-material/Co2";
 import { Gauge } from "@mui/x-charts/Gauge";
+import { TextField } from "@mui/material";
 
 const zoom = 21;
 const center = {
@@ -27,6 +28,18 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
   const [currentMarker, setCurrentMarker] = useState(null);
   const [showmarker, setShowMarker] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
+  const [panelCapacity, setPanelCapacity] = useState(250);
+
+  console.log(panelCapacity, "panelCapacity");
+
+  // panel count part
+  const [panelCount, setPanelCount] = useState(0);
+  const [panelMax, setPanelMax] = useState(100);
+  const [panelMin, setPanelMin] = useState(0);
+
+  const onPanelCount = (value) => {
+    setPanelCount(value);
+  };
 
   const onCurrentMarker = (marker) => {
     setCurrentMarker(marker);
@@ -294,20 +307,54 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
 
       <div
         style={{
-          display: "flex",
-          position: "absolute",
-          bottom: "10px",
-          left: "45%",
-          backgroundColor: "white",
-          borderRadius: "5px",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: showDetails ? "block" : "none",
         }}
+        className="absolute bottom-[1%] left-[30%]"
       >
-        <div>
-          <h1>Panel Count:</h1>
-        </div>
-        <SliderSizes max={50} />
+        <Box
+          sx={{
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: "5px",
+            paddingLeft: "10px",
+            paddingRight: "10px",
+            display: "flex",
+            flexDirection: "row",
+            gap: "10px",
+            padding: "10px",
+            alignItems: "center",
+          }}
+        >
+          <Box>
+            <Typography variant="h6" sx={{ color: "black" }}>
+              Panel Count
+            </Typography>
+          </Box>
+          <Box>
+            <SliderSizes
+              min={panelMin}
+              max={panelMax}
+              value={panelCount}
+              onPanelCount={onPanelCount}
+            />
+          </Box>
+          <Box>
+            <TextField
+              placeholder="Panel Capacity"
+              fullWidth
+              sx={{
+                width: "200px",
+              }}
+              inputProps={{ min: 250, max: 1000 }}
+              type="number"
+              id="outlined-basic"
+              label="Panel Capacity"
+              variant="outlined"
+              value={panelCapacity}
+              onChange={(e) => setPanelCapacity(e.target.value)}
+            />
+          </Box>
+        </Box>
       </div>
 
       <div
