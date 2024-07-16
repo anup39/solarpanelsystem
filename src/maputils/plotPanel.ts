@@ -20,7 +20,8 @@ const plotPanel =(
     onRoofArea: any,
     onMaxPanelCount: any,
     onCo2Savings: any,
-    onYearlyEnergy: any
+    onYearlyEnergy: any,
+    defaultPanelCount: number
 )=>{
     const args = {
         "location.latitude": lat.toFixed(5),
@@ -50,7 +51,7 @@ const plotPanel =(
           polygon.setMap(null);
         }
         );
-        console.log(content, "content");
+        
         onPanelMax(content.solarPotential.maxArrayPanelsCount)
         onPanelMin(0)
         onMaxPanelCount(content.solarPotential.maxArrayPanelsCount)
@@ -64,7 +65,7 @@ const plotPanel =(
           solarPotential.solarPanels.slice(-1)[0].yearlyEnergyDcKwh;
         const maxEnergy = solarPotential.solarPanels[0].yearlyEnergyDcKwh;
         const size = solarPotential.solarPanels.length;
-        solarPotential.solarPanels.slice(0, 70).map((panel, index) => {
+        solarPotential.solarPanels.slice(0, defaultPanelCount).map((panel, index) => {
           const [w, h] = [
             solarPotential.panelWidthMeters / 2,
             solarPotential.panelHeightMeters / 2,

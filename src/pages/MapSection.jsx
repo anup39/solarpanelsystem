@@ -420,6 +420,16 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
               max={panelMax}
               value={panelCount}
               onPanelCount={onPanelCount}
+              map={map}
+              onShowDetails={onShowDetails}
+              onLoader={onLoader}
+              onPanelMax={onPanelMax}
+              onPanelMin={onPanelMin}
+              onAnnualSunshine={onAnnualSunshine}
+              onRoofArea={onRoofArea}
+              onMaxPanelCount={onMaxPanelCount}
+              onCo2Savings={onCo2Savings}
+              onYearlyEnergy={onYearlyEnergy}
             />
           </Box>
           <Box>

@@ -72,6 +72,8 @@ export default function GooglePlacesAutoComplete({
                     if (results[0]) {
                       setInputValue(results[0].formatted_address);
 
+                      window.lat = lat;
+                      window.lng = lng;
                       plotPanel(
                         lat,
                         lng,
@@ -86,7 +88,8 @@ export default function GooglePlacesAutoComplete({
                         onRoofArea,
                         onMaxPanelCount,
                         onCo2Savings,
-                        onYearlyEnergy
+                        onYearlyEnergy,
+                        70
                       );
                       // If you specifically want the place name, you might need to parse the address components
                       // The place name might not be directly available or consistent across different locations
@@ -109,6 +112,8 @@ export default function GooglePlacesAutoComplete({
             onCurrentMarker(draggableMarker);
 
             // Step 5: Plot the panel
+            window.lat = lat;
+            window.lng = lng;
             plotPanel(
               lat,
               lng,
@@ -123,7 +128,8 @@ export default function GooglePlacesAutoComplete({
               onRoofArea,
               onMaxPanelCount,
               onCo2Savings,
-              onYearlyEnergy
+              onYearlyEnergy,
+              70
             );
           }
         }
