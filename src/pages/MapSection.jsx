@@ -15,7 +15,7 @@ import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import SolarPowerIcon from "@mui/icons-material/SolarPower";
 import Co2Icon from "@mui/icons-material/Co2";
-import { Gauge } from "@mui/x-charts/Gauge";
+import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import { TextField } from "@mui/material";
 
 const zoom = 21;
@@ -104,7 +104,11 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
                 marginRight: "56px",
               }}
             >
-              <HouseIcon />
+              <HouseIcon
+                sx={{
+                  color: "#3d3880",
+                }}
+              />
               <Typography variant="h6" sx={{ color: "black" }}>
                 Building Insights endpoint
               </Typography>
@@ -128,7 +132,11 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
                 marginRight: "56px",
               }}
             >
-              <WbSunnyIcon />
+              <WbSunnyIcon
+                sx={{
+                  color: "#3d3880",
+                }}
+              />
               <Typography variant="h6" sx={{ color: "black" }}>
                 Annual Sunshine
               </Typography>
@@ -157,7 +165,11 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
                 marginRight: "56px",
               }}
             >
-              <SquareFootIcon />
+              <SquareFootIcon
+                sx={{
+                  color: "#3d3880",
+                }}
+              />
               <Typography variant="h6" sx={{ color: "black" }}>
                 Roof Area
               </Typography>
@@ -186,7 +198,11 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
                 marginRight: "56px",
               }}
             >
-              <SolarPowerIcon />
+              <SolarPowerIcon
+                sx={{
+                  color: "#3d3880",
+                }}
+              />
               <Typography variant="h6" sx={{ color: "black" }}>
                 Max Panel Count
               </Typography>
@@ -215,7 +231,11 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
                 marginRight: "56px",
               }}
             >
-              <Co2Icon />
+              <Co2Icon
+                sx={{
+                  color: "#3d3880",
+                }}
+              />
               <Typography variant="h6" sx={{ color: "black" }}>
                 CO₂ savings
               </Typography>
@@ -244,7 +264,16 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           }}
         >
           <Typography>Panel count</Typography>
-          <Gauge width={100} height={100} value={60} />
+          <Gauge
+            width={100}
+            height={100}
+            value={60}
+            sx={() => ({
+              [`& .${gaugeClasses.valueArc}`]: {
+                fill: "#3d3880",
+              },
+            })}
+          />
           <Typography
             sx={{
               ml: 3,
@@ -263,7 +292,16 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           }}
         >
           <Typography>Yearly Energy</Typography>
-          <Gauge width={100} height={100} value={60} />
+          <Gauge
+            width={100}
+            height={100}
+            value={60}
+            sx={() => ({
+              [`& .${gaugeClasses.valueArc}`]: {
+                fill: "#3d3880",
+              },
+            })}
+          />
           <Typography
             sx={{
               ml: 3,
