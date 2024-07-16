@@ -14,6 +14,7 @@ export default function GooglePlacesAutoComplete({
   onCurrentMarker,
   showmarker,
   onShowDetails,
+  onLoader,
 }) {
   const dispatch = useDispatch();
   const [searchResult, setSearchResult] = useState(null);
@@ -63,7 +64,14 @@ export default function GooglePlacesAutoComplete({
                     if (results[0]) {
                       setInputValue(results[0].formatted_address);
 
-                      plotPanel(lat, lng, map, dispatch, onShowDetails);
+                      plotPanel(
+                        lat,
+                        lng,
+                        map,
+                        dispatch,
+                        onShowDetails,
+                        onLoader
+                      );
                       // If you specifically want the place name, you might need to parse the address components
                       // The place name might not be directly available or consistent across different locations
                       // For example, you might consider the first component with a "locality" type as the place name
@@ -85,7 +93,7 @@ export default function GooglePlacesAutoComplete({
             onCurrentMarker(draggableMarker);
 
             // Step 5: Plot the panel
-            plotPanel(lat, lng, map, dispatch, onShowDetails);
+            plotPanel(lat, lng, map, dispatch, onShowDetails, onLoader);
           }
         }
       );
@@ -121,4 +129,5 @@ GooglePlacesAutoComplete.propTypes = {
   onCurrentMarker: PropTypes.func.isRequired,
   showmarker: PropTypes.bool.isRequired,
   onShowDetails: PropTypes.func.isRequired,
+  onLoader: PropTypes.func.isRequired,
 };

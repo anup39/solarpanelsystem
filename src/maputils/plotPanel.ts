@@ -11,12 +11,14 @@ const plotPanel =(
     map: google.maps.Map,
     dispatch: any,
     onShowDetails: any,
+    onLoader: any
 )=>{
     const args = {
         "location.latitude": lat.toFixed(5),
         "location.longitude": lng.toFixed(5),
       };
     const params = new URLSearchParams({ ...args, key: apiKey });
+    onLoader(true);
     fetch(
         `https://solar.googleapis.com/v1/buildingInsights:findClosest?${params}`
       ).then(async (response) => {
@@ -31,6 +33,7 @@ const plotPanel =(
             )
           );
           onShowDetails(false);
+          onLoader(false);
           return;
         }
         let polygons_: google.maps.Polygon[] = [];
@@ -88,6 +91,7 @@ const plotPanel =(
         });
         window.polygons = polygons_;
         onShowDetails(true);
+        onLoader(false);
       });
 
 

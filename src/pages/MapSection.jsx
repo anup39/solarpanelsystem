@@ -25,10 +25,15 @@ const center = {
 };
 
 export default function MapSection({ loaded, map, onLoaded, onMap }) {
+  const [loader, setLoader] = useState(false);
   const [currentMarker, setCurrentMarker] = useState(null);
   const [showmarker, setShowMarker] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
   const [panelCapacity, setPanelCapacity] = useState(250);
+
+  const onLoader = (value) => {
+    setLoader(value);
+  };
 
   const onCurrentMarker = (marker) => {
     setCurrentMarker(marker);
@@ -87,6 +92,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           onCurrentMarker={onCurrentMarker}
           showmarker={showmarker}
           onShowDetails={onShowDetails}
+          onLoader={onLoader}
         />
       )}
 
@@ -430,8 +436,16 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
         className="absolute top-[1%] left-[40%]"
       >
         <Alert icon={<Info fontSize="inherit" />} severity="success">
-          Here move the marker to the desired location
+          Here move the marker to the desired building
         </Alert>
+      </div>
+
+      <div
+        style={{
+          display: loader ? "block" : "none",
+        }}
+      >
+        <Loader></Loader>
       </div>
     </div>
   );
