@@ -15,9 +15,7 @@ const plotPanel =(
         "location.latitude": lat.toFixed(5),
         "location.longitude": lng.toFixed(5),
       };
-    console.log("GET buildingInsights\n", args);
     const params = new URLSearchParams({ ...args, key: apiKey });
-    console.log("params", params);
     fetch(
         `https://solar.googleapis.com/v1/buildingInsights:findClosest?${params}`
       ).then(async (response) => {
@@ -35,7 +33,6 @@ const plotPanel =(
           return;
         }
         const solarPotential = content.solarPotential;
-        console.log(solarPotential, "solarPotential");
         const palette = createPalette(panelsPalette).map(rgbToColor);
         const minEnergy =
           solarPotential.solarPanels.slice(-1)[0].yearlyEnergyDcKwh;
@@ -77,13 +74,7 @@ const plotPanel =(
             fillColor: palette[colorIndex],
             fillOpacity: 0.9,
           });
-    
-          console.log("polygon", polygon);
-          console.log(map, "map");
-    
           polygon.setMap(map);
-    
-          console.log(index, "index");
           return polygon;
         });
         onShowDetails(true);
