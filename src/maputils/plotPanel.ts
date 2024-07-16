@@ -4,12 +4,13 @@ import { setshowToast, settoastMessage, settoastType } from "../reducers/Display
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
+
 const plotPanel =(
     lat: number,
     lng: number,
     map: google.maps.Map,
     dispatch: any,
-    onShowDetails: any
+    onShowDetails: any,
 )=>{
     const args = {
         "location.latitude": lat.toFixed(5),
@@ -32,6 +33,11 @@ const plotPanel =(
           onShowDetails(false);
           return;
         }
+        let polygons_: google.maps.Polygon[] = [];
+        window.polygons?.forEach((polygon:any) => {
+          polygon.setMap(null);
+        }
+        );
         const solarPotential = content.solarPotential;
         const palette = createPalette(panelsPalette).map(rgbToColor);
         const minEnergy =
@@ -75,8 +81,12 @@ const plotPanel =(
             fillOpacity: 0.9,
           });
           polygon.setMap(map);
+          polygons_.push(polygon);
+        
+          
           return polygon;
         });
+        window.polygons = polygons_;
         onShowDetails(true);
       });
 

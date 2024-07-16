@@ -62,6 +62,7 @@ export default function GooglePlacesAutoComplete({
                   if (status === "OK") {
                     if (results[0]) {
                       setInputValue(results[0].formatted_address);
+
                       plotPanel(lat, lng, map, dispatch, onShowDetails);
                       // If you specifically want the place name, you might need to parse the address components
                       // The place name might not be directly available or consistent across different locations
