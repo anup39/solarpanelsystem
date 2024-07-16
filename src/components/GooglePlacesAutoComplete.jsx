@@ -22,6 +22,7 @@ export default function GooglePlacesAutoComplete({
   onRoofArea,
   onMaxPanelCount,
   onCo2Savings,
+  onYearlyEnergy,
 }) {
   const dispatch = useDispatch();
   const [searchResult, setSearchResult] = useState(null);
@@ -84,7 +85,8 @@ export default function GooglePlacesAutoComplete({
                         onAnnualSunshine,
                         onRoofArea,
                         onMaxPanelCount,
-                        onCo2Savings
+                        onCo2Savings,
+                        onYearlyEnergy
                       );
                       // If you specifically want the place name, you might need to parse the address components
                       // The place name might not be directly available or consistent across different locations
@@ -120,7 +122,8 @@ export default function GooglePlacesAutoComplete({
               onAnnualSunshine,
               onRoofArea,
               onMaxPanelCount,
-              onCo2Savings
+              onCo2Savings,
+              onYearlyEnergy
             );
           }
         }
@@ -165,4 +168,5 @@ GooglePlacesAutoComplete.propTypes = {
   onRoofArea: PropTypes.func.isRequired,
   onMaxPanelCount: PropTypes.func.isRequired,
   onCo2Savings: PropTypes.func.isRequired,
+  onYearlyEnergy: PropTypes.func.isRequired,
 };

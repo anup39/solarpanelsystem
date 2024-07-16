@@ -1,6 +1,7 @@
 import { createPalette, rgbToColor, normalize } from "../maputils/visualize";
 import { panelsPalette } from "../maputils/colors";
 import { setshowToast, settoastMessage, settoastType } from "../reducers/DisplaySettings";
+import calculateYearlyEnergy from "./calculateYearlyEnergy";
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -19,6 +20,7 @@ const plotPanel =(
     onRoofArea: any,
     onMaxPanelCount: any,
     onCo2Savings: any,
+    onYearlyEnergy: any
 )=>{
     const args = {
         "location.latitude": lat.toFixed(5),
@@ -55,6 +57,7 @@ const plotPanel =(
         onAnnualSunshine(content.solarPotential.maxSunshineHoursPerYear)
         onRoofArea(content.solarPotential.wholeRoofStats.areaMeters2)
         onCo2Savings(content.solarPotential.carbonOffsetFactorKgPerMwh)
+  
         const solarPotential = content.solarPotential;
         const palette = createPalette(panelsPalette).map(rgbToColor);
         const minEnergy =
@@ -105,6 +108,8 @@ const plotPanel =(
         });
         window.polygons = polygons_;
         onPanelCount(window.polygons?.length);
+        const energy:number =calculateYearlyEnergy(content.solarPotential.solarPanelConfigs, content.solarPotential.panelCapacityWatts, 250,window.polygons?.length );
+        onYearlyEnergy(Math.round(energy/1000),2);
         onShowDetails(true);
         onLoader(false);
       });

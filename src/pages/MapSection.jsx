@@ -62,6 +62,11 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
   const [roofArea, setRoofArea] = useState(0);
   const [maxPanelCount, setMaxPanelCount] = useState(0);
   const [co2Savings, setCo2Savings] = useState(0);
+  const [yearlyEnergy, setYearlyEnergy] = useState(0);
+
+  const onYearlyEnergy = (value) => {
+    setYearlyEnergy(value);
+  };
 
   const onAnnualSunshine = (value) => {
     setAnnualSunshine(value);
@@ -100,6 +105,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           onRoofArea={onRoofArea}
           onMaxPanelCount={onMaxPanelCount}
           onCo2Savings={onCo2Savings}
+          onYearlyEnergy={onYearlyEnergy}
         />
       )}
 
@@ -345,7 +351,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
               ml: 3,
             }}
           >
-            {0} KWh
+            {yearlyEnergy} KWh
           </Typography>
         </Box>
       </div>
