@@ -16,6 +16,8 @@ import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import SolarPowerIcon from "@mui/icons-material/SolarPower";
 import Co2Icon from "@mui/icons-material/Co2";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
+import SpeedIcon from "@mui/icons-material/Speed";
+import RoomIcon from "@mui/icons-material/Room";
 import { TextField } from "@mui/material";
 
 const zoom = 21;
@@ -289,6 +291,39 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
               </Typography>
             </Box>
           </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginRight: "56px",
+              }}
+            >
+              <SpeedIcon
+                sx={{
+                  color: "#3d3880",
+                }}
+              />
+              <Typography variant="h6" sx={{ color: "black" }}>
+                Installation Size
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="body1" sx={{ color: "black" }}>
+                {(400 * panelCount) / 1000} Kw
+              </Typography>
+            </Box>
+          </Box>
         </Box>
       </div>
 
@@ -297,7 +332,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
         style={{
           display: showDetails ? "block" : "none",
         }}
-        className="absolute top-[30%] right-[1%] flex flex-row bg-white rounded-lg p-3"
+        className="absolute top-[35%] right-[1%] flex flex-row bg-white rounded-lg p-3"
       >
         <Box
           sx={{
@@ -339,7 +374,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           <Gauge
             width={100}
             height={100}
-            value={60}
+            value={100}
             sx={() => ({
               [`& .${gaugeClasses.valueArc}`]: {
                 fill: "#3d3880",
@@ -389,7 +424,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
       </div>
 
       {/* Panel count and yearly enegry gauge part */}
-      <div
+      {/* <div
         style={{
           display: showDetails ? "block" : "none",
         }}
@@ -449,7 +484,7 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
             />
           </Box>
         </Box>
-      </div>
+      </div> */}
 
       {/* Alert for the user to move the marker to the desired location */}
       <div
@@ -458,8 +493,8 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
         }}
         className="absolute top-[1%] left-[40%]"
       >
-        <Alert icon={<Info fontSize="inherit" />} severity="success">
-          Here move the marker to the desired building
+        <Alert icon={<RoomIcon fontSize="inherit" />} severity="success">
+          Click and drag the marker to the desired building
         </Alert>
       </div>
 
