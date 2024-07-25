@@ -19,6 +19,7 @@ import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import SpeedIcon from "@mui/icons-material/Speed";
 import RoomIcon from "@mui/icons-material/Room";
 import { TextField } from "@mui/material";
+import Grouping from "../components/Grouping";
 
 const zoom = 21;
 const center = {
@@ -32,6 +33,13 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
   const [showmarker, setShowMarker] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
   const [panelCapacity, setPanelCapacity] = useState(250);
+  const [createdPolygon, setCreatedPolygon] = useState(null);
+
+  const onCreatedPolygon = (evPolygon) => {
+    if (evPolygon) {
+      setCreatedPolygon(evPolygon);
+    }
+  };
 
   const onLoader = (value) => {
     setLoader(value);
@@ -110,9 +118,8 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           onYearlyEnergy={onYearlyEnergy}
         />
       )}
-
+      <Grouping map={map} display={true} onCreatedPolygon={onCreatedPolygon} />
       {/* Insights part */}
-
       <div
         style={{
           display: showDetails ? "block" : "none",
@@ -326,7 +333,6 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           </Box>
         </Box>
       </div>
-
       {/* Panel count slider and capacity */}
       <div
         style={{
@@ -390,7 +396,6 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           </Typography>
         </Box>
       </div>
-
       {/* Show Marker checkbox */}
       <div className="absolute flex flex-row top-2 right-96 bg-[#3D3880] rounded-lg gap-32">
         <div>
@@ -422,7 +427,6 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           />
         </div>
       </div>
-
       {/* Panel count and yearly enegry gauge part */}
       {/* <div
         style={{
@@ -485,7 +489,6 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           </Box>
         </Box>
       </div> */}
-
       {/* Alert for the user to move the marker to the desired location */}
       <div
         style={{
@@ -497,7 +500,6 @@ export default function MapSection({ loaded, map, onLoaded, onMap }) {
           Click and drag the marker to the desired building
         </Alert>
       </div>
-
       <div
         style={{
           display: loader ? "block" : "none",

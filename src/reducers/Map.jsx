@@ -5,6 +5,8 @@ const initialState = {
   coordinates: JSON.parse(localStorage.getItem("coordinates")) || null,
   buildingInsights:
     JSON.parse(localStorage.getItem("buildingInsights")) || null,
+
+  createdPolygon: null,
 };
 
 export const Map = createSlice({
@@ -20,10 +22,18 @@ export const Map = createSlice({
     setBuildingInsights: (state, action) => {
       state.buildingInsights = action.payload;
     },
+    setCreatedPolygon: (state, action) => {
+      state.createdPolygon = action.payload;
+    },
   },
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const { setPlace, setCoordinates, setBuildingInsights } = Map.actions;
+export const {
+  setPlace,
+  setCoordinates,
+  setBuildingInsights,
+  setCreatedPolygon,
+} = Map.actions;
 
 export default Map.reducer;
