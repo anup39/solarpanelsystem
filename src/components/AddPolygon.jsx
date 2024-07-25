@@ -4,6 +4,24 @@ import RectangleIcon from "@mui/icons-material/Rectangle";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { setCreatedPolygon } from "../reducers/Map";
+
+// Function to calculate the centroid of a polygon
+function getPolygonCentroid(path) {
+  let latSum = 0;
+  let lngSum = 0;
+  const len = path.getLength();
+
+  for (let i = 0; i < len; i++) {
+    const point = path.getAt(i);
+    latSum += point.lat();
+    lngSum += point.lng();
+  }
+
+  return {
+    lat: latSum / len,
+    lng: lngSum / len,
+  };
+}
 export default function AddPolygon({ map, onCreatedPolygon }) {
   const dispatch = useDispatch();
 
@@ -18,12 +36,44 @@ export default function AddPolygon({ map, onCreatedPolygon }) {
         strokeWeight: 2,
         fillColor: "#FF0000",
         fillOpacity: 0.35,
-        editable: false,
-        draggable: false,
-        clickable: false,
+        editable: true,
+        draggable: true,
+        clickable: true,
         geodesic: false,
       });
+      const infoWindow = new window.google.maps.InfoWindow();
+      console.log(infoWindow, "infowindow");
+
+      polygon_.addListener("click", () => {
+        console.log("clicked");
+        infoWindow.setContent("Polygon");
+        // Calculate the centroid of the polygon
+        const centroid = getPolygonCentroid(polygon_.getPath());
+
+        // Set the position of the infoWindow to the centroid
+        infoWindow.setPosition(centroid);
+        infoWindow.open(map);
+      });
+      polygon_.addListener("dragend", () => {
+        const updatedCoords = polygon_
+          .getPath()
+          .getArray()
+          .map((coord) => ({ lat: coord.lat(), lng: coord.lng() }));
+        const lastItem = Object.assign({}, updatedCoords[0]); // create a copy of the first item
+        updatedCoords.push(lastItem); // add the copy as the last item in the array
+        dispatch(setCreatedPolygon(updatedCoords));
+      });
+      polygon_.addListener("mouseup", () => {
+        const updatedCoords = polygon_
+          .getPath()
+          .getArray()
+          .map((coord) => ({ lat: coord.lat(), lng: coord.lng() }));
+        const lastItem = Object.assign({}, updatedCoords[0]); // create a copy of the first item
+        updatedCoords.push(lastItem); // add the copy as the last item in the array
+        dispatch(setCreatedPolygon(updatedCoords));
+      });
       polygon_.setMap(map);
+
       onCreatedPolygon(polygon_);
     }
   }, [createdPolygon, map]);
