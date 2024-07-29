@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
+import DrawRectangle from "mapbox-gl-draw-rectangle-mode";
 import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
 import {
   setShowKeyInfo,
@@ -20,6 +21,9 @@ import PopupControl from "../components/PopupControl/PopupControl";
 import { Card, Typography } from "@mui/material";
 
 import GeocoderApi from "../maputils/GeocoderApi";
+
+const modes = MapboxDraw.modes;
+modes.draw_rectangle = DrawRectangle;
 
 export default function Mapbox({ popUpRef }) {
   const dispatch = useDispatch();
@@ -74,6 +78,7 @@ export default function Mapbox({ popUpRef }) {
       map.on("load", () => {
         const draw = new MapboxDraw({
           displayControlsDefault: false,
+          modes: modes,
         });
         // 1 Draw and its layer
         map.addControl(draw);
@@ -91,11 +96,11 @@ export default function Mapbox({ popUpRef }) {
           }
           if (type_of_geometry === "Polygon") {
             const coordinates = geometry.coordinates[0];
-            const wktCoordinates = coordinates
-              .map((coord) => `${coord[0]} ${coord[1]}`)
-              .join(", ");
-            const wktCoordinates_final = `POLYGON ((${wktCoordinates}))`;
-            dispatch(setWKTGeometry(wktCoordinates_final));
+            // const wktCoordinates = coordinates
+            //   .map((coord) => `${coord[0]} ${coord[1]}`)
+            //   .join(", ");
+            // const wktCoordinates_final = `POLYGON ((${wktCoordinates}))`;
+            dispatch(setWKTGeometry([coordinates]));
             dispatch(setTypeOfGeometry(type_of_geometry));
           }
           if (type_of_geometry === "LineString") {
@@ -122,11 +127,11 @@ export default function Mapbox({ popUpRef }) {
           }
           if (type_of_geometry === "Polygon") {
             const coordinates = geometry.coordinates[0];
-            const wktCoordinates = coordinates
-              .map((coord) => `${coord[0]} ${coord[1]}`)
-              .join(", ");
-            const wktCoordinates_final = `POLYGON ((${wktCoordinates}))`;
-            dispatch(setWKTGeometry(wktCoordinates_final));
+            // const wktCoordinates = coordinates
+            //   .map((coord) => `${coord[0]} ${coord[1]}`)
+            //   .join(", ");
+            // const wktCoordinates_final = `POLYGON ((${wktCoordinates}))`;
+            dispatch(setWKTGeometry([coordinates]));
             dispatch(setTypeOfGeometry(type_of_geometry));
           }
           if (type_of_geometry === "LineString") {
@@ -154,7 +159,7 @@ export default function Mapbox({ popUpRef }) {
       draw_control.updateDrawControl(popUpRef);
       map.addControl(new maplibregl.ScaleControl(), "bottom-left");
       // const popup_control = new PopupControl();
-      // map.addControl(popup_control, "bottom-left");
+      // map.addControl(popup_control, "bottom-right");
     }
   }, [map, popUpRef]);
   return (

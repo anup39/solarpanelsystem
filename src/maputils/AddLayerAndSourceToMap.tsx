@@ -121,13 +121,18 @@ function AddLayerAndSourceToMap({
         "fill-opacity": [
           "case",
           ["boolean", ["feature-state", "hover"], false],
-          0.8,
+          0.3,
           parseFloat(style.fill_opacity),
         ],
       },
       // filter: ["!=", ["id"], 65],
     };
     map.addLayer(newLayer);
+    // if (layerId === "Mainlayer") {
+    //   if (map.getSource("Keepoutsource") && map.getLayer("Keepoutlayer")) {
+    //     map.moveLayer("Keepoutlayer", "Mainlayer");
+    //   }
+    // }
   }
 
   let hoveredStateId: null = null!;
@@ -181,9 +186,8 @@ function AddLayerAndSourceToMap({
           .setLngLat(e.lngLat)
           .setDOMContent(container)
           .addTo(map);
-        // }
-        // }
       }
+      // }
     });
   }
 

@@ -15,8 +15,14 @@ import {
 
 export default function LayersAndWidgetPanel({ map, popUpRef }) {
   const { mode } = useSelector((state) => state.drawnPolygon);
+  const maingeojosn = useSelector((state) => state.mapView.maingeojosn);
+  const keepoutgeojson = useSelector((state) => state.mapView.keepoutgeojson);
   const dispatch = useDispatch();
   const handleDraw = (event, layer_name) => {
+    const popups = document.getElementsByClassName("maplibregl-popup");
+    if (popups.length) {
+      popups[0].remove();
+    }
     const draw = map.draw;
     draw.deleteAll();
     dispatch(setWKTGeometry(null));
@@ -62,7 +68,9 @@ export default function LayersAndWidgetPanel({ map, popUpRef }) {
         }}
       >
         <Checkbox
-          onClick={(event) => handleLayerChecked(event, "Main", map, popUpRef)}
+          onClick={(event) =>
+            handleLayerChecked(event, "Main", map, popUpRef, maingeojosn)
+          }
         />
         <Typography variant="h6">Main</Typography>
         <Tooltip title={"Draw Main"}>
@@ -89,7 +97,7 @@ export default function LayersAndWidgetPanel({ map, popUpRef }) {
       >
         <Checkbox
           onClick={(event) =>
-            handleLayerChecked(event, "Keepout", map, popUpRef)
+            handleLayerChecked(event, "Keepout", map, popUpRef, keepoutgeojson)
           }
         />
         <Typography variant="h6">Keepout</Typography>
