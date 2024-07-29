@@ -9,11 +9,25 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
 import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
+import {
+  setShowKeyInfo,
+  setTypeOfGeometry,
+  setWKTGeometry,
+} from "../reducers/DrawnGeometry";
+import LayersControl from "../components/LayerControl/LayerControl";
+import DrawControl from "../components/DrawControl/DrawControl";
+import PopupControl from "../components/PopupControl/PopupControl";
+import { Card, Typography } from "@mui/material";
+
 import GeocoderApi from "../maputils/GeocoderApi";
 
 export default function Mapbox({ popUpRef }) {
+  const dispatch = useDispatch();
   const mapContainer = useRef(null);
   const [map, setMap] = useState();
+  const show_key_info = useSelector(
+    (state) => state.drawnPolygon.show_key_info
+  );
   useEffect(() => {
     const map = new maplibregl.Map({
       container: mapContainer.current,
@@ -34,6 +48,7 @@ export default function Mapbox({ popUpRef }) {
     };
   }, []);
 
+  // For geocoder
   useEffect(() => {
     if (map) {
       const geocoder = new MaplibreGeocoder(GeocoderApi, {
@@ -54,7 +69,116 @@ export default function Mapbox({ popUpRef }) {
     }
   }, [map]);
 
-  return <div ref={mapContainer} id="map" className="map"></div>;
+  useEffect(() => {
+    if (map) {
+      map.on("load", () => {
+        const draw = new MapboxDraw({
+          displayControlsDefault: false,
+        });
+        // 1 Draw and its layer
+        map.addControl(draw);
+        map.draw = draw;
+        map.on("draw.create", function (event) {
+          dispatch(setShowKeyInfo(true));
+          const feature = event.features;
+          const geometry = feature[0].geometry;
+          const type_of_geometry = feature[0].geometry.type;
+          if (type_of_geometry === "Point") {
+            const coordinates = geometry.coordinates;
+            const wktCoordinates_final = `POINT (${coordinates[0]} ${coordinates[1]})`;
+            dispatch(setWKTGeometry(wktCoordinates_final));
+            dispatch(setTypeOfGeometry(type_of_geometry));
+          }
+          if (type_of_geometry === "Polygon") {
+            const coordinates = geometry.coordinates[0];
+            const wktCoordinates = coordinates
+              .map((coord) => `${coord[0]} ${coord[1]}`)
+              .join(", ");
+            const wktCoordinates_final = `POLYGON ((${wktCoordinates}))`;
+            dispatch(setWKTGeometry(wktCoordinates_final));
+            dispatch(setTypeOfGeometry(type_of_geometry));
+          }
+          if (type_of_geometry === "LineString") {
+            const coordinates = geometry.coordinates;
+            const wktCoordinates = coordinates
+              .map((coord) => `${coord[0]} ${coord[1]}`)
+              .join(", ");
+            const wktCoordinates_final = `LINESTRING (${wktCoordinates})`;
+            dispatch(setWKTGeometry(wktCoordinates_final));
+            dispatch(setTypeOfGeometry(type_of_geometry));
+          }
+        });
+        map.on("draw.update", function updateFunctionProject(event) {
+          dispatch(setShowKeyInfo(true));
+          // const draw = map.draw;
+          const feature = event.features;
+          const geometry = feature[0].geometry;
+          const type_of_geometry = feature[0].geometry.type;
+          if (type_of_geometry === "Point") {
+            const coordinates = geometry.coordinates;
+            const wktCoordinates_final = `POINT (${coordinates[0]} ${coordinates[1]})`;
+            dispatch(setWKTGeometry(wktCoordinates_final));
+            dispatch(setTypeOfGeometry(type_of_geometry));
+          }
+          if (type_of_geometry === "Polygon") {
+            const coordinates = geometry.coordinates[0];
+            const wktCoordinates = coordinates
+              .map((coord) => `${coord[0]} ${coord[1]}`)
+              .join(", ");
+            const wktCoordinates_final = `POLYGON ((${wktCoordinates}))`;
+            dispatch(setWKTGeometry(wktCoordinates_final));
+            dispatch(setTypeOfGeometry(type_of_geometry));
+          }
+          if (type_of_geometry === "LineString") {
+            const coordinates = geometry.coordinates;
+            const wktCoordinates = coordinates
+              .map((coord) => `${coord[0]} ${coord[1]}`)
+              .join(", ");
+            const wktCoordinates_final = `LINESTRING (${wktCoordinates})`;
+            dispatch(setWKTGeometry(wktCoordinates_final));
+            dispatch(setTypeOfGeometry(type_of_geometry));
+          }
+        });
+      });
+    }
+  }, [map, dispatch]);
+
+  useEffect(() => {
+    if (map) {
+      const layer_control = new LayersControl();
+      map.addControl(layer_control, "top-left");
+      layer_control.updateProject(popUpRef);
+      map.addControl(new maplibregl.NavigationControl(), "top-right");
+      const draw_control = new DrawControl();
+      map.addControl(draw_control, "top-right");
+      draw_control.updateDrawControl(popUpRef);
+      map.addControl(new maplibregl.ScaleControl(), "bottom-left");
+      // const popup_control = new PopupControl();
+      // map.addControl(popup_control, "bottom-left");
+    }
+  }, [map, popUpRef]);
+  return (
+    <div ref={mapContainer} id="map" className="map">
+      {show_key_info ? (
+        <Card
+          sx={{
+            position: "absolute",
+            top: "12px",
+            right: "41%",
+            zIndex: 99999,
+          }}
+        >
+          <Typography sx={{ m: 1 }} variant="body2" component="p">
+            Press
+            <span style={{ color: "#D51B60" }}> Enter </span> to Save drawing
+            and
+            <span style={{ color: "#D51B60" }}> Esc </span>
+            to cancel
+          </Typography>
+        </Card>
+      ) : null}
+    </div>
+  );
 }
 
 Mapbox.propTypes = {

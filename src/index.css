@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.popup-delete {
+  cursor: pointer;
+  color: white;
+  background-color: #d51b60;
+  padding: 2;
+  border-radius: "5px";
+}
+.popup-edit {
+  cursor: pointer;
+  color: white;
+  background-color: #d51b60;
+  padding: 2;
+  border-radius: "5px";
+}
+
+.maplibregl-popup-close-button {
+  font-size: large;
+  padding: 5px;
+  background-color: #d51b60;
+  color: #ebebeb;
+}
+
+.maplibregl-popup-close-button:hover {
+  background-color: black;
+}
