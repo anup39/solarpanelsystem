@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import MapSection from "../pages/MapSection";
+import MapSectionMapbox from "../pages/MapSectionMapbox";
 import PropTypes from "prop-types";
 
 export default function Routers({ loaded, map, onLoaded, onMap }) {
@@ -18,12 +19,13 @@ export default function Routers({ loaded, map, onLoaded, onMap }) {
           exact
           path="/map"
           element={
-            <MapSection
-              loaded={loaded}
-              map={map}
-              onLoaded={onLoaded}
-              onMap={onMap}
-            />
+            // <MapSection
+            //   loaded={loaded}
+            //   map={map}
+            //   onLoaded={onLoaded}
+            //   onMap={onMap}
+            // />
+            <MapSectionMapbox />
           }
         />
       </Routes>

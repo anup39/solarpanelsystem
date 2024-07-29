@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.popup-delete {
+  cursor: pointer;
+  color: white;
+  background-color: #d51b60;
+  padding: 2;
+  border-radius: "5px";
+}
+.popup-edit {
+  cursor: pointer;
+  color: white;
+  background-color: #d51b60;
+  padding: 2;
+  border-radius: "5px";
+}
+
+.maplibregl-popup-close-button {
+  font-size: large;
+  padding: 5px;
+  background-color: #d51b60;
+  color: #ebebeb;
+}
+
+.maplibregl-popup-close-button:hover {
+  background-color: black;
+}
+.maplibregl-popup {
+  transform: none !important;
+  top: 15%;
+  left: 10px;
+}
+.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.maplibregl-popup-anchor-center .maplibregl-popup-tip,
+.maplibregl-popup-anchor-left .maplibregl-popup-tip,
+.maplibregl-popup-anchor-right .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip,
+.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.maplibregl-popup-anchor-top-right .maplibregl-popup-tip,
+.maplibregl-popup-anchor-top-left .maplibregl-popup-tip {
+  display: none !important;
+}
