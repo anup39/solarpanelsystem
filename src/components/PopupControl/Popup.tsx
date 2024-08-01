@@ -24,6 +24,7 @@ import Tooltip from "@mui/material/Tooltip";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box, Link, Typography } from "@mui/material";
 import React from "react";
+import AddLayerAndSourceToMap from "../../maputils/AddLayerAndSourceToMap";
 
 declare global {
   interface Window {
@@ -56,6 +57,7 @@ const Popup = ({ properties, feature_id, features }: PopupProps) => {
   );
   const propertyElements = properties
     ? Object.entries(properties).map(([key, value]) => {
+        if (key === "centroid") return null;
         return (
           <div key={key}>
             <>
@@ -65,6 +67,42 @@ const Popup = ({ properties, feature_id, features }: PopupProps) => {
         );
       })
     : null;
+
+  useEffect(() => {
+    if (properties.centroid && properties.view_name === "Main") {
+      console.log("showing centroid");
+      console.log(properties, "properties");
+      const map = window.map_global;
+      if (
+        map.getSource("Mainsourcecentroid") &&
+        map.getLayer("Mainlayercentroid")
+      ) {
+        const source = map.getSource("Mainsourcecentroid");
+        source.setData(JSON.parse(properties.centroid));
+      } else {
+        AddLayerAndSourceToMap({
+          map: map,
+          layerId: "Mainlayercentroid",
+          sourceId: "Mainsourcecentroid",
+          url: JSON.parse(properties.centroid),
+          source_layer: "Mainsourcecentroid",
+          popUpRef: null,
+          showPopup: false,
+          style: {
+            fill_color: "yellow",
+            fill_opacity: 0.2,
+            stroke_color: "black",
+          },
+          zoomToLayer: false,
+          extent: [],
+          geomType: "geojson",
+          fillType: "circle",
+          trace: false,
+          component: "map",
+        });
+      }
+    }
+  }, [properties]);
 
   const handleDeleteCategory = (properties, feature_id) => {
     dispatch(setshowMapLoader(true));

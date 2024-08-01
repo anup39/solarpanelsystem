@@ -47,7 +47,7 @@ const handleLayerChecked = async (
         fill_opacity: 0.2,
         stroke_color: "black",
       },
-      zoomToLayer: true,
+      zoomToLayer: geojson.features.length > 0 ? true : false,
       extent: bbox,
       geomType: "geojson",
       fillType: fillType,

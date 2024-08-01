@@ -10,6 +10,9 @@ const initialState = {
     type: "FeatureCollection",
     features: [],
   },
+  showCalculate: true,
+  solar_details: null,
+  api_details: null,
 };
 
 export const MapView = createSlice({
@@ -25,11 +28,26 @@ export const MapView = createSlice({
     editGeojsonKeepout: (state, action) => {
       state.keepoutgeojson = action.payload;
     },
+    setShowCalculate: (state, action) => {
+      state.showCalculate = action.payload;
+    },
+    setSolarDetails: (state, action) => {
+      state.solar_details = action.payload;
+    },
+    setApiDetails: (state, action) => {
+      state.api_details = action.payload;
+    },
   },
 });
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const { setshowMapLoader, editGeojson, editGeojsonKeepout } =
-  MapView.actions;
+export const {
+  setshowMapLoader,
+  editGeojson,
+  editGeojsonKeepout,
+  setShowCalculate,
+  setSolarDetails,
+  setApiDetails,
+} = MapView.actions;
 
 export default MapView.reducer;

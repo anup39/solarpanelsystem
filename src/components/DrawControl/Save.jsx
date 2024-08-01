@@ -23,6 +23,7 @@ import { useEffect, useCallback } from "react";
 import { setShowKeyInfo } from "../../reducers/DrawnGeometry";
 import { editGeojson } from "../../reducers/MapView";
 import createSmallPolygons from "../../maputils/AddSmallPolygons";
+import * as turf from "@turf/turf";
 
 export default function Save({ popUpRef }) {
   const dispatch = useDispatch();
@@ -79,11 +80,12 @@ export default function Save({ popUpRef }) {
                   })),
                 };
                 // Push the new feature into the features array
+
                 deepcopy.features.push({
                   type: "Feature",
                   properties: {
-                    centriod: "45,23",
-                    area: 234,
+                    centroid: turf.centroid(turf.polygon(wkt_geometry)),
+                    area: turf.area(turf.polygon(wkt_geometry)).toFixed(2),
                     component: component,
                     type_of_geometry: type_of_geometry,
                     view_name: view_name,
@@ -131,8 +133,8 @@ export default function Save({ popUpRef }) {
                 deepcopy.features.push({
                   type: "Feature",
                   properties: {
-                    centriod: "45,23",
-                    area: 234,
+                    centroid: turf.centroid(turf.polygon(wkt_geometry)),
+                    area: turf.area(turf.polygon(wkt_geometry)).toFixed(2),
                     component: component,
                     type_of_geometry: type_of_geometry,
                     view_name: view_name,
@@ -186,6 +188,12 @@ export default function Save({ popUpRef }) {
                 const features = deepcopy.features.map((feature) => {
                   if (feature.id === feature_id) {
                     feature.geometry.coordinates = wkt_geometry;
+                    feature.properties.centroid = turf.centroid(
+                      turf.polygon(wkt_geometry)
+                    );
+                    feature.properties.area = turf
+                      .area(turf.polygon(wkt_geometry))
+                      .toFixed(2);
                   }
                   return feature;
                 });
@@ -204,6 +212,12 @@ export default function Save({ popUpRef }) {
                 const features = deepcopy.features.map((feature) => {
                   if (feature.id === feature_id) {
                     feature.geometry.coordinates = wkt_geometry;
+                    feature.properties.centroid = turf.centroid(
+                      turf.polygon(wkt_geometry)
+                    );
+                    feature.properties.area = turf
+                      .area(turf.polygon(wkt_geometry))
+                      .toFixed(2);
                   }
                   return feature;
                 });
