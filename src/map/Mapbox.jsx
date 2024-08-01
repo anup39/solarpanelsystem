@@ -18,7 +18,8 @@ import {
 import LayersControl from "../components/LayerControl/LayerControl";
 import DrawControl from "../components/DrawControl/DrawControl";
 import PopupControl from "../components/PopupControl/PopupControl";
-import { Card, Typography } from "@mui/material";
+import { Card, Typography, Button } from "@mui/material";
+// import AddLayerAndSourceToMap from "../maputils/AddLayerAndSourceToMap";
 
 import GeocoderApi from "../maputils/GeocoderApi";
 
@@ -32,6 +33,12 @@ export default function Mapbox({ popUpRef }) {
   const show_key_info = useSelector(
     (state) => state.drawnPolygon.show_key_info
   );
+  const showCalculate = useSelector((state) => state.mapView.showCalculate);
+
+  const maingeojson = useSelector((state) => state.mapView.maingeojosn);
+
+  const keepoutgeojson = useSelector((state) => state.mapView.keepoutgeojson);
+
   useEffect(() => {
     const map = new maplibregl.Map({
       container: mapContainer.current,
@@ -162,6 +169,13 @@ export default function Mapbox({ popUpRef }) {
       // map.addControl(popup_control, "bottom-right");
     }
   }, [map, popUpRef]);
+
+  const handleCalculate = () => {
+    console.log("Calculating");
+    console.log(maingeojson, "main geojson");
+    console.log(keepoutgeojson, "keepout geojson");
+  };
+
   return (
     <div ref={mapContainer} id="map" className="map">
       {show_key_info ? (
@@ -180,6 +194,18 @@ export default function Mapbox({ popUpRef }) {
             <span style={{ color: "#D51B60" }}> Esc </span>
             to cancel
           </Typography>
+        </Card>
+      ) : null}
+      {showCalculate ? (
+        <Card
+          sx={{
+            position: "absolute",
+            top: "12px",
+            right: "21%",
+            zIndex: 99999,
+          }}
+        >
+          <Button onClick={handleCalculate}>Calculate</Button>
         </Card>
       ) : null}
     </div>
