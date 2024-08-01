@@ -27,6 +27,7 @@ import {
   settoastMessage,
   settoastType,
 } from "../reducers/DisplaySettings";
+import { setSolarDetails, setApiDetails } from "../reducers/MapView";
 
 const modes = MapboxDraw.modes;
 modes.draw_rectangle = DrawRectangle;
@@ -43,6 +44,8 @@ export default function Mapbox({ popUpRef }) {
   const maingeojson = useSelector((state) => state.mapView.maingeojosn);
 
   const keepoutgeojson = useSelector((state) => state.mapView.keepoutgeojson);
+  const solar_details = useSelector((state) => state.mapView.solar_details);
+  const api_details = useSelector((state) => state.mapView.api_details);
 
   useEffect(() => {
     const map = new maplibregl.Map({
@@ -184,7 +187,38 @@ export default function Mapbox({ popUpRef }) {
       dispatch(settoastMessage("There should at least one main area"));
       dispatch(setshowToast(true));
     } else {
-      console.log("calculate here");
+      let keepout_area = 0;
+      keepoutgeojson?.features?.forEach((feature) => {
+        keepout_area += parseInt(feature?.properties.area);
+      });
+      const roof_area =
+        parseInt(maingeojson?.features[0]?.properties?.area) - keepout_area;
+      const number_of_panel = Math.ceil(roof_area / 2.38);
+      const panelcapacity = 470;
+      const solar_potential = (
+        (roof_area / number_of_panel) *
+        panelcapacity
+      ).toFixed(2);
+      dispatch(
+        setSolarDetails({
+          roof_area,
+          number_of_panel,
+          panelcapacity,
+          solar_potential,
+        })
+      );
+      const lat =
+        maingeojson?.features[0].properties?.centroid.geometry.coordinates[1];
+      const lon =
+        maingeojson?.features[0].properties?.centroid.geometry.coordinates[0];
+      axios
+        .get(
+          `https://re.jrc.ec.europa.eu/api/PVcalc?lat=${lat}&lon=${lon}&peakpower=${solar_potential}&loss=14&fixed=1&angle=35&aspect=0`
+        )
+        .then((res) => {
+          console.log(res, "res");
+          dispatch(setApiDetails(res.data));
+        });
     }
   };
 
@@ -218,6 +252,46 @@ export default function Mapbox({ popUpRef }) {
           }}
         >
           <Button onClick={handleCalculate}>Calculate</Button>
+        </Card>
+      ) : null}
+      {solar_details ? (
+        <Card
+          sx={{
+            position: "absolute",
+            top: "12px",
+            left: "21%",
+            zIndex: 99999,
+            padding: "10px",
+          }}
+        >
+          <Typography variant="h6">Solar Details</Typography>
+          <Typography variant="body1">
+            Roof Area: {solar_details?.roof_area} meter square
+          </Typography>
+          <Typography variant="body1">
+            Number of panel: {solar_details?.number_of_panel}
+          </Typography>
+          <Typography variant="body1">
+            Panel Capacity: {solar_details?.panelcapacity} Watt
+          </Typography>
+          <Typography variant="body1">
+            Solar potential: {solar_details?.solar_potential} KWh
+          </Typography>
+        </Card>
+      ) : null}
+
+      {api_details ? (
+        <Card
+          sx={{
+            position: "absolute",
+            bottom: "1px",
+            left: "21%",
+            zIndex: 99999,
+            padding: "10px",
+          }}
+        >
+          <Typography variant="h6">Api Details</Typography>
+          <Typography variant="body1">{api_details}</Typography>
         </Card>
       ) : null}
     </div>
