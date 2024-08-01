@@ -22,6 +22,11 @@ import { Card, Typography, Button } from "@mui/material";
 // import AddLayerAndSourceToMap from "../maputils/AddLayerAndSourceToMap";
 
 import GeocoderApi from "../maputils/GeocoderApi";
+import {
+  setshowToast,
+  settoastMessage,
+  settoastType,
+} from "../reducers/DisplaySettings";
 
 const modes = MapboxDraw.modes;
 modes.draw_rectangle = DrawRectangle;
@@ -174,6 +179,13 @@ export default function Mapbox({ popUpRef }) {
     console.log("Calculating");
     console.log(maingeojson, "main geojson");
     console.log(keepoutgeojson, "keepout geojson");
+    if (maingeojson.features.length == 0) {
+      dispatch(settoastType("error"));
+      dispatch(settoastMessage("There should at least one main area"));
+      dispatch(setshowToast(true));
+    } else {
+      console.log("calculate here");
+    }
   };
 
   return (
