@@ -12,6 +12,11 @@ import {
   setFeatureId,
   setComponent,
 } from "../../reducers/DrawnGeometry";
+import {
+  setshowToast,
+  settoastMessage,
+  settoastType,
+} from "../../reducers/DisplaySettings";
 
 export default function LayersAndWidgetPanel({ map, popUpRef }) {
   const { mode } = useSelector((state) => state.drawnPolygon);
@@ -38,7 +43,13 @@ export default function LayersAndWidgetPanel({ map, popUpRef }) {
     }
     const type_of_geometry = "Polygon";
     if (type_of_geometry === "Polygon") {
-      draw.changeMode("draw_polygon");
+      if (layer_name === "Main" && maingeojosn.features.length > 0) {
+        dispatch(settoastType("error"));
+        dispatch(settoastMessage("You have already a main area in Map"));
+        dispatch(setshowToast(true));
+      } else {
+        draw.changeMode("draw_polygon");
+      }
     }
     if (type_of_geometry === "LineString") {
       draw.changeMode("draw_line_string");
