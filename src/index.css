@@ -43,3 +43,7 @@
 .maplibregl-popup-anchor-top-left .maplibregl-popup-tip {
   display: none !important;
 }
+
+.MuiChartsTooltip-root {
+  z-index: 99999990 !important;
+}
