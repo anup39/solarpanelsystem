@@ -18,8 +18,9 @@ import {
 import LayersControl from "../components/LayerControl/LayerControl";
 import DrawControl from "../components/DrawControl/DrawControl";
 import PopupControl from "../components/PopupControl/PopupControl";
-import { Card, Typography, Button } from "@mui/material";
+import { Card, Typography, Button, Box, Divider } from "@mui/material";
 // import AddLayerAndSourceToMap from "../maputils/AddLayerAndSourceToMap";
+import TickPlacementBars from "../components/common/Barchart";
 
 import GeocoderApi from "../maputils/GeocoderApi";
 import {
@@ -195,6 +196,7 @@ export default function Mapbox({ popUpRef }) {
         parseInt(maingeojson?.features[0]?.properties?.area) - keepout_area;
       const number_of_panel = Math.ceil(roof_area / 2.38);
       const panelcapacity = 470;
+      const peakpower = panelcapacity * number_of_panel;
       const solar_potential = (
         (roof_area / number_of_panel) *
         panelcapacity
@@ -213,11 +215,24 @@ export default function Mapbox({ popUpRef }) {
         maingeojson?.features[0].properties?.centroid.geometry.coordinates[0];
       axios
         .get(
-          `https://re.jrc.ec.europa.eu/api/PVcalc?lat=${lat}&lon=${lon}&peakpower=${solar_potential}&loss=14&fixed=1&angle=35&aspect=0`
+          `https://re.jrc.ec.europa.eu/api/v5_2/PVcalc?outputformat=json&lat=${lat}&lon=${lon}&raddatabase=PVGIS-SARAH2&browser=0&peakpower=${
+            peakpower / 1000
+          }&loss=14&mountingplace=free&pvtechchoice=crystSi&angle=35&aspect=0&usehorizon=1&userhorizon=&js=1`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*", // Allow all origins
+              "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS", // Allow specific methods
+              "Access-Control-Allow-Headers": "Content-Type, Authorization", // Allow specific headers
+            },
+          }
         )
         .then((res) => {
           console.log(res, "res");
           dispatch(setApiDetails(res.data));
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
         });
     }
   };
@@ -284,14 +299,92 @@ export default function Mapbox({ popUpRef }) {
         <Card
           sx={{
             position: "absolute",
-            bottom: "1px",
-            left: "21%",
+            bottom: "5px",
+            left: "1%",
             zIndex: 99999,
             padding: "10px",
           }}
         >
-          <Typography variant="h6">Api Details</Typography>
-          <Typography variant="body1">{api_details}</Typography>
+          <Box>
+            <Typography variant="h6">Energy Details</Typography>
+            <Divider></Divider>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                // padding: "5px",
+                gap: "10px",
+              }}
+            >
+              <Typography>Yearly PV energy production [kWh]: </Typography>
+              <Typography>{api_details.outputs.totals.fixed.E_y}</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                // padding: "5px",
+                gap: "10px",
+              }}
+            >
+              <Typography>Monthly PV energy production [kWh]: </Typography>
+              <Typography>{api_details.outputs.totals.fixed.E_m}</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                // padding: "5px",
+                gap: "10px",
+              }}
+            >
+              <Typography>Daily PV energy production [kWh]: </Typography>
+              <Typography>{api_details.outputs.totals.fixed.E_d}</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                // padding: "5px",
+                gap: "10px",
+              }}
+            >
+              <Typography>Yearly in-plane irradiation [kWh/m2]:</Typography>
+              <Typography>
+                {api_details.outputs.totals.fixed["H(i)_y"]}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                // padding: "5px",
+                gap: "10px",
+              }}
+            >
+              <Typography>Year-to-year variability [kWh]:</Typography>
+              <Typography>
+                {api_details.outputs.totals.fixed["SD_y"]}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                // padding: "5px",
+                gap: "10px",
+              }}
+            >
+              <Typography>Total loss [%]:</Typography>
+              <Typography>
+                {" "}
+                {api_details.outputs.totals.fixed["l_total"]}
+              </Typography>
+            </Box>
+          </Box>
+          <Box>
+            <TickPlacementBars data={api_details} />
+          </Box>
         </Card>
       ) : null}
     </div>
