@@ -24,6 +24,7 @@
     "autosuggest-highlight": "^3.3.4",
     "axios": "^1.7.2",
     "events": "^3.3.0",
+    "http-proxy-middleware": "^3.0.0",
     "mapbox-gl-draw-rectangle-mode": "^1.0.4",
     "maplibre-gl": "^4.5.0",
     "prop-types": "^15.8.1",
